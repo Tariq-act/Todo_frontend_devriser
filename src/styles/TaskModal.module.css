@@ -1,0 +1,88 @@
+.taskModal,
+.modalOverlay {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  transition: all 0.3s ease-in-out;
+}
+
+.closeModal {
+  display: none;
+}
+
+.modalOverlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.taskModalCard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: #f1f1f1;
+  padding: 14px 28px;
+  border-radius: 3px;
+  max-width: 600px;
+  min-width: 400px;
+}
+
+.taskModalCard h4 {
+  color: #646681;
+}
+
+.formControl,
+.buttonControl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.formControl input,
+.formControl textarea,
+.formControl select {
+  border: none;
+  padding: 0.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.buttonControl {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.buttonControl button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.addTask {
+  background-color: #646ff0;
+  color: #fff;
+}
+
+.addTask:hover {
+  filter: brightness(95%);
+}
+
+.cancel {
+  background-color: #cccdde;
+}
+.cancel:hover {
+  filter: brightness(95%);
+}

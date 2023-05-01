@@ -1,0 +1,40 @@
+.taskList {
+  margin-top: 1rem;
+  background-color: #ecedf6;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+.taskList ul li {
+  display: flex;
+  /* align-items: center; */
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 0.5rem;
+  border-radius: 3px;
+}
+
+.taskContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.taskContent h3 {
+  font-size: 1rem;
+  color: #667780;
+}
+
+.taskContent p {
+  font-size: 0.9rem;
+}
+
+.taskControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.taskControls span {
+  cursor: pointer;
+}

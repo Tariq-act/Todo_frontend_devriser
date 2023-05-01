@@ -1,0 +1,27 @@
+.task {
+  width: 500px;
+  margin: auto;
+}
+
+.taskButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.taskButton button {
+  cursor: pointer;
+  background-color: #646ff0;
+  border: none;
+  font-family: inherit;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  border-radius: 3px;
+}
+
+.taskButton select {
+  border: none;
+  background-color: #cccdde;
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+}
