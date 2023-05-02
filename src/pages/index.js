@@ -6,6 +6,7 @@ import Header from '@/components/Header/Header';
 import Task from '@/components/Task/Task';
 import TaskModal from '@/components/TaskModal/TaskModal';
 import { useState } from 'react';
+import Navbar from '@/components/Navbar/Navbar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,6 +20,7 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <main className={` ${inter.className}`}>
+        <Navbar />
         <Task />
       </main>
     </>

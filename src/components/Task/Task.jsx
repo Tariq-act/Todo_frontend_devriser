@@ -3,6 +3,7 @@ import styles from '@/styles/Task.module.css';
 import TaskList from '../TaskList/TaskList';
 import { useState } from 'react';
 import TaskModal from '../TaskModal/TaskModal';
+import { Button } from '@mui/material';
 
 function Task() {
   const [addTask, setAddTask] = useState(false);
@@ -15,9 +16,9 @@ function Task() {
 
   const toggleModal = (e) => {
     e.preventDefault();
-
     setAddTask(!addTask);
   };
+
   return (
     <div className={styles.task}>
       <Header />
