@@ -2,15 +2,25 @@ import { MdDelete, MdEdit } from 'react-icons/md';
 import data from '../../../dummyData.json';
 import { useEffect, useState } from 'react';
 import { Box, List, ListItem, Typography } from '@mui/material';
+import TaskModal from '../TaskModal/TaskModal';
+import EditModal from '../EditModal/EditModal';
 
 function TaskList() {
   const [dummyData, setDummyData] = useState(data);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editData, setEditData] = useState({});
+
   const deleteTask = async (id) => {
     const updatedData = dummyData.filter((item) => item.id !== id);
     setDummyData(updatedData);
   };
-  const editTask = (id) => {
-    console.log('edit', id);
+  const editTask = (task) => {
+    setIsEdit(true);
+    setEditData(task);
+  };
+
+  const toggleModal = () => {
+    setIsEdit(false);
   };
 
   return (
@@ -71,7 +81,7 @@ function TaskList() {
                 <Typography
                   variant='span'
                   sx={{ cursor: 'pointer' }}
-                  onClick={() => editTask(task.id)}
+                  onClick={() => editTask(task)}
                 >
                   <MdEdit size={20} color='#19A7CE' />
                 </Typography>
@@ -82,6 +92,9 @@ function TaskList() {
           <Typography>No Todo Found</Typography>
         )}
       </List>
+      {isEdit && (
+        <EditModal task={editData} isEdit={isEdit} toggleModal={toggleModal} />
+      )}
     </Box>
   );
 }

@@ -19,6 +19,7 @@ const StyledSelect = styled(Select)({
 
 function Task() {
   const [addTask, setAddTask] = useState(false);
+
   const [selectStatus, setSelectStatus] = useState('ALL');
 
   const toggleModal = () => {
