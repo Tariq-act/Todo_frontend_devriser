@@ -102,7 +102,6 @@ const RegForm = () => {
                     color: '#FFFFFF',
                     '&:hover': { color: '#8500FA' },
                   }}
-                  // onClick={() => router.push('/')}
                   onClick={onSubmit}
                 >
                   REGISTER
