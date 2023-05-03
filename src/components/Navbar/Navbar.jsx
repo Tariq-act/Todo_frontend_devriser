@@ -33,23 +33,23 @@ const Navbar = () => {
 
   return (
     <FlexBetween padding='1rem 6%' backgroundColor={alt}>
-      <FlexBetween gap='1.75rem'>
-        <Typography
-          fontWeight='bold'
-          fontFamily={'inherit'}
-          fontSize='clamp(1rem, 2rem, 2.25rem)'
-          color='#8500FA'
-          // sx={{
-          //   '&:hover': {
-          //     color: primaryLight,
-          //     cursor: 'pointer',
-          //   },
-          // }}
-        >
-          Task Tracker
-        </Typography>
+      {/* <FlexBetween gap='1.75rem'> */}
+      <Typography
+        fontWeight='bold'
+        fontFamily={'inherit'}
+        fontSize='clamp(1rem, 2rem, 2.25rem)'
+        color='#8500FA'
+        // sx={{
+        //   '&:hover': {
+        //     color: primaryLight,
+        //     cursor: 'pointer',
+        //   },
+        // }}
+      >
+        Task Tracker
+      </Typography>
 
-        <FlexBetween
+      {/* <FlexBetween
           backgroundColor={neutralLight}
           borderRadius='9px'
           gap='3rem'
@@ -59,12 +59,12 @@ const Navbar = () => {
           <IconButton>
             <Search />
           </IconButton>
-        </FlexBetween>
-      </FlexBetween>
+        </FlexBetween> */}
+      {/* </FlexBetween> */}
 
       <FlexBetween gap='2rem'>
-        <Notifications sx={{ fontSize: '25px' }} />
-        <Help sx={{ fontSize: '25px' }} />
+        {/* <Notifications sx={{ fontSize: '25px' }} />
+        <Help sx={{ fontSize: '25px' }} /> */}
         <FormControl variant='standard' value={fullName}>
           <Select
             value={fullName}
