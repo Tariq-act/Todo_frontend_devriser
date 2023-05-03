@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { login } from '@/service/userAPI';
 import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginForm = () => {
   const router = useRouter();
@@ -14,6 +16,10 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
 
   const onSubmit = async () => {
+    if (!email || !password) {
+      toast.error('Invaild');
+      // console.log(userData);
+    }
     const userData = await login({
       email,
       password,
@@ -22,6 +28,11 @@ const LoginForm = () => {
     console.log(userData);
     if (userData.status == 200) {
       router.push('/');
+      toast.success('successfully');
+    } else {
+      toast.error('Invaild');
+      console.log(userData);
+      return;
     }
   };
 

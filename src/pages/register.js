@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { register } from '@/service/userAPI';
+import { ToastContainer, toast } from 'react-toastify';
 
 const RegForm = () => {
   const router = useRouter();
@@ -28,6 +29,10 @@ const RegForm = () => {
     console.log(userData);
     if (userData.status == 200) {
       router.push('/');
+      toast.success('Success');
+    } else {
+      toast.error('Invaild');
+      console.log(userData);
     }
   };
 
