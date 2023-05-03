@@ -88,3 +88,6 @@ function EditModal({ task, toggleModal, isEdit }) {
 }
 
 export default EditModal;
+
+// CryptoJS.AES.encrypt(encodedStr, 'secret key 123').toString()
+// const encodedStr=encodeURIComponent(str)

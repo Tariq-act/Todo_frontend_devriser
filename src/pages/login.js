@@ -5,9 +5,26 @@ import { Formik } from 'formik';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { login } from '@/service/userAPI';
+import { useState } from 'react';
 
 const LoginForm = () => {
   const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onSubmit = async () => {
+    const userData = await login({
+      email,
+      password,
+    });
+
+    console.log(userData);
+    if (userData.status == 200) {
+      router.push('/');
+    }
+  };
+
   return (
     <>
       <Head>
@@ -24,7 +41,7 @@ const LoginForm = () => {
           alignItems={'center'}
           justifyContent={'center'}
         >
-          <form onSubmit='submit'>
+          <form>
             <Typography
               align='center'
               variant='h5'
@@ -35,8 +52,18 @@ const LoginForm = () => {
               Login To the Task Tracker
             </Typography>
             <Box display='grid' gap='1rem' width='500px' margin={'auto'}>
-              <TextField label='Email' name='email' />
-              <TextField label='Password' type='password' name='password' />
+              <TextField
+                label='Email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <TextField
+                label='Password'
+                type='password'
+                name='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
               {/* BUTTONS */}
               <Box>
                 <Button
@@ -46,26 +73,24 @@ const LoginForm = () => {
                     color: '#FFFFFF',
                     '&:hover': { color: '#8500FA' },
                   }}
-                  onClick={() => router.push('/')}
+                  onClick={onSubmit}
                 >
                   LOGIN
                 </Button>
 
-                <Typography
-                  sx={{ display: 'flex', gap: '.5rem', marginTop: '1rem' }}
-                >
-                  Don't have an account?
+                <Box sx={{ display: 'flex', gap: '.5rem', marginTop: '1rem' }}>
+                  <Typography>Don't have an account?</Typography>
+
                   <Link href={'/register'}>
                     <Typography
                       sx={{
                         color: '#8500FA',
                       }}
                     >
-                      {' '}
                       Sign Up here.
                     </Typography>
                   </Link>
-                </Typography>
+                </Box>
               </Box>
             </Box>
           </form>

@@ -5,9 +5,32 @@ import { Formik } from 'formik';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { register } from '@/service/userAPI';
 
 const RegForm = () => {
   const router = useRouter();
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    console.log({ firstname, lastname, email, password });
+    const userData = await register({
+      firstname,
+      lastname,
+      email,
+      password,
+    });
+
+    console.log(userData);
+    if (userData.status == 200) {
+      router.push('/');
+    }
+  };
+
   return (
     <>
       <Head>
@@ -24,7 +47,7 @@ const RegForm = () => {
           alignItems={'center'}
           justifyContent={'center'}
         >
-          <form onSubmit='submit'>
+          <form>
             <Typography
               align='center'
               variant='h5'
@@ -35,14 +58,41 @@ const RegForm = () => {
               Register To the Task Tracker
             </Typography>
             <Box display='grid' gap='1rem' width='500px'>
-              <TextField label='Full Name' name='firstName' fullWidth />
-              <TextField label='Email' name='email' />
-              <TextField label='Password' type='password' name='password' />
               <TextField
+                type='text'
+                label='First Name'
+                // name='firstName'
+                fullWidth
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
+              />
+              <TextField
+                type='text'
+                label='Last Name'
+                // name='lastName'
+                fullWidth
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
+              />
+              <TextField
+                type='email'
+                label='Email'
+                // name='email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <TextField
+                label='Password'
+                type='password'
+                // name='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {/* <TextField
                 label='Confirm Password'
                 type='password'
                 name='confirmPassword'
-              />
+              /> */}
               {/* BUTTONS */}
               <Box>
                 <Button
@@ -52,15 +102,14 @@ const RegForm = () => {
                     color: '#FFFFFF',
                     '&:hover': { color: '#8500FA' },
                   }}
-                  onClick={() => router.push('/')}
+                  // onClick={() => router.push('/')}
+                  onClick={onSubmit}
                 >
                   REGISTER
                 </Button>
 
-                <Typography
-                  sx={{ display: 'flex', gap: '.5rem', marginTop: '1rem' }}
-                >
-                  Don't have an account?
+                <Box sx={{ display: 'flex', gap: '.5rem', marginTop: '1rem' }}>
+                  <Typography>Don't have an account?</Typography>
                   <Link href={'/login'}>
                     <Typography
                       sx={{
@@ -70,7 +119,7 @@ const RegForm = () => {
                       Log In here.
                     </Typography>
                   </Link>
-                </Typography>
+                </Box>
               </Box>
             </Box>
           </form>
