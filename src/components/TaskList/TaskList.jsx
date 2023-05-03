@@ -9,8 +9,8 @@ function TaskList() {
     const updatedData = dummyData.filter((item) => item.id !== id);
     setDummyData(updatedData);
   };
-  const editTask = () => {
-    console.log('edit');
+  const editTask = (id) => {
+    console.log('edit', id);
   };
 
   return (
@@ -33,6 +33,8 @@ function TaskList() {
                 backgroundColor: '#fff',
                 borderRadius: '3px',
                 fontFamily: 'inherit',
+                textDecorationLine:
+                  task.status === 'complete' ? 'line-through' : 'none',
               }}
             >
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
