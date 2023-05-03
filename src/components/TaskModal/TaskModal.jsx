@@ -1,3 +1,5 @@
+'use client';
+
 import styles from '@/styles/TaskModal.module.css';
 import { useState } from 'react';
 
@@ -7,18 +9,22 @@ function TaskModal({ addTask, toggleModal }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState('');
+  console.log(data);
 
   const onSubmit = (e) => {
     e.preventDefault();
-
     toggleModal();
 
     setTitle('');
     setDescription('');
     setStatus('');
-    console.log(data.length);
 
-    data.push({ id: data.length - 1 + 1, title, description, status });
+    data.push({ id: data.length + 1, title, description, status });
+  };
+
+  const closeModal = (e) => {
+    e.preventDefault();
+    toggleModal();
   };
 
   return (
@@ -63,7 +69,7 @@ function TaskModal({ addTask, toggleModal }) {
             <button className={styles.addTask} type='submit' onClick={onSubmit}>
               AddTask
             </button>
-            <button className={styles.cancel} onClick={toggleModal}>
+            <button className={styles.cancel} onClick={closeModal}>
               Cancel
             </button>
           </div>

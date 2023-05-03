@@ -8,6 +8,7 @@ import {
   Box,
 } from '@mui/material';
 import { Search, Notifications, Help } from '@mui/icons-material';
+import { useRouter } from 'next/navigation';
 
 import { styled } from '@mui/system';
 
@@ -18,6 +19,7 @@ const FlexBetween = styled(Box)({
 });
 
 const Navbar = () => {
+  const router = useRouter();
   const user = {
     firstName: 'Himanshu',
     lastName: 'Chaudhary',
@@ -34,14 +36,15 @@ const Navbar = () => {
       <FlexBetween gap='1.75rem'>
         <Typography
           fontWeight='bold'
+          fontFamily={'inherit'}
           fontSize='clamp(1rem, 2rem, 2.25rem)'
           color='#8500FA'
-          sx={{
-            '&:hover': {
-              color: primaryLight,
-              cursor: 'pointer',
-            },
-          }}
+          // sx={{
+          //   '&:hover': {
+          //     color: primaryLight,
+          //     cursor: 'pointer',
+          //   },
+          // }}
         >
           Task Tracker
         </Typography>
@@ -83,7 +86,7 @@ const Navbar = () => {
             <MenuItem value={fullName}>
               <Typography>{fullName}</Typography>
             </MenuItem>
-            <MenuItem>Log Out</MenuItem>
+            <MenuItem onClick={() => router.push('/login')}>Log Out</MenuItem>
           </Select>
         </FormControl>
       </FlexBetween>

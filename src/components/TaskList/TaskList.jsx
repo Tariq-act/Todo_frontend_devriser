@@ -1,7 +1,7 @@
-import styles from '@/styles/TaskList.module.css';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import data from '../../../dummyData.json';
 import { useEffect, useState } from 'react';
+import { Box, List, ListItem, Typography } from '@mui/material';
 
 function TaskList() {
   const [dummyData, setDummyData] = useState(data);
@@ -14,33 +14,73 @@ function TaskList() {
   };
 
   return (
-    <div className={styles.taskList}>
-      <ul>
+    <Box
+      sx={{
+        backgroundColor: '#ecedf6',
+        borderRadius: '8px',
+        padding: '1rem',
+        marginTop: '1rem',
+      }}
+    >
+      <List sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         {dummyData ? (
           dummyData.map((task, index) => (
-            <li key={index}>
-              <div className={styles.taskContent}>
-                <h3>
+            <ListItem
+              key={index}
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                backgroundColor: '#fff',
+                borderRadius: '3px',
+                fontFamily: 'inherit',
+              }}
+            >
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Typography
+                  sx={{
+                    fontSize: '1.2rem',
+                    fontFamily: 'inherit',
+                    color: '#667780',
+                    fontWeight: 'bold',
+                  }}
+                >
                   {task.title.charAt(0).toUpperCase()}
                   {task.title.slice(1)}
-                </h3>
-                <p>{task.description}</p>
-              </div>
-              <div className={styles.taskControls}>
-                <span onClick={() => deleteTask(task.id)}>
+                </Typography>
+                <Typography sx={{ fontSize: '0.9rem' }}>
+                  {task.description}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '0.8rem',
+                }}
+              >
+                <Typography
+                  variant='span'
+                  sx={{ cursor: 'pointer' }}
+                  onClick={() => deleteTask(task.id)}
+                >
                   <MdDelete size={20} color='#E06469' />
-                </span>
-                <span onClick={() => editTask(task.id)}>
+                </Typography>
+                <Typography
+                  variant='span'
+                  sx={{ cursor: 'pointer' }}
+                  onClick={() => editTask(task.id)}
+                >
                   <MdEdit size={20} color='#19A7CE' />
-                </span>
-              </div>
-            </li>
+                </Typography>
+              </Box>
+            </ListItem>
           ))
         ) : (
-          <h3>No Todo Found</h3>
+          <Typography>No Todo Found</Typography>
         )}
-      </ul>
-    </div>
+      </List>
+    </Box>
   );
 }
 
