@@ -5,12 +5,15 @@ import { Formik } from 'formik';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { login } from '@/service/userAPI';
+// import { login } from '@/service/userAPI';
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { useTodoContext } from '@/context/todoContext';
+
 const LoginForm = () => {
+  const { login } = useTodoContext();
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

@@ -6,10 +6,12 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { register } from '@/service/userAPI';
+// import { register } from '@/service/userAPI';
 import { ToastContainer, toast } from 'react-toastify';
+import { useTodoContext } from '@/context/todoContext';
 
 const RegForm = () => {
+  const { register } = useTodoContext();
   const router = useRouter();
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
@@ -28,7 +30,7 @@ const RegForm = () => {
 
     console.log(userData);
     if (userData && userData.status == 200) {
-      router.push('/');
+      router.push('/login');
       toast.success('Success');
     } else {
       toast.error('Invaild');

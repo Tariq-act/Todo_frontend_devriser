@@ -6,60 +6,41 @@ import { useEffect, useState } from 'react';
 import { Box, List, ListItem, Typography } from '@mui/material';
 import TaskModal from '../TaskModal/TaskModal';
 import EditModal from '../EditModal/EditModal';
+import ReactPaginate from 'react-paginate';
 
-// export async function getServerSideProps() {
-//   const token = localStorage.getItem('token') || '';
-//   let filterId = '';
-//   if (typeof window !== 'undefined') {
-//     filterId = global.window?.localStorage.getItem('token') || '';
-//   }
-//   console.log(filterId);
-
-//   const resp = await fetch(
-//     `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=1`,
-//     {
-//       method: 'GET',
-//       headers: {
-//         Authorization: filterId,
-//         'Content-Type': 'Application/json',
-//       },
-//     }
-//   );
-
-//   return {
-//     props: {
-//       pokemon: await resp.json(),
-//     },
-//   };
-// }
+import { useTodoContext } from '@/context/todoContext';
 
 function TaskList() {
+  const { getAllTodo, todos } = useTodoContext();
   const [dummyData, setDummyData] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [editData, setEditData] = useState({});
 
-  const getalltodo = () => {
-    const token = localStorage.getItem('token') || '';
-    fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=1`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: token,
-          'Content-Type': 'Application/json',
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        setDummyData(res.result);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const getalltodo = () => {
+  //   const token = localStorage.getItem('token') || '';
+  //   fetch(
+  //     `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=1`,
+  //     {
+  //       method: 'GET',
+  //       headers: {
+  //         Authorization: token,
+  //         'Content-Type': 'Application/json',
+  //       },
+  //     }
+  //   )
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       console.log(res);
+  //       setDummyData(res.result);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
+  // useEffect(() => {
+  //   getalltodo();
+  // }, []);
   useEffect(() => {
-    getalltodo();
+    getAllTodo();
   }, []);
 
   const deleteTask = async (id) => {
@@ -101,8 +82,8 @@ function TaskList() {
       }}
     >
       <List sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {dummyData.length > 0 ? (
-          dummyData.map((task, index) => (
+        {todos.length > 0 ? (
+          todos.map((task, index) => (
             <ListItem
               key={index}
               sx={{
@@ -168,3 +149,20 @@ function TaskList() {
 }
 
 export default TaskList;
+
+{
+  /* <ReactPaginate
+previousLabel={'previous'}
+nextLabel={'next'}
+breakLabel={'...'}
+breakClassName={'break-me'}
+activeClassName={'active'}
+containerClassName={'pagination'}
+subContainerClassName={'pages pagination'}
+initialPage={props.currentPage - 1}
+pageCount={props.pageCount}
+marginPagesDisplayed={2}
+pageRangeDisplayed={5}
+onPageChange={pagginationHandler}
+/> */
+}
