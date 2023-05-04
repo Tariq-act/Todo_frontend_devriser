@@ -4,6 +4,7 @@ import styles from '@/styles/TaskModal.module.css';
 import { useState } from 'react';
 
 import data from '../../../dummyData.json';
+import axios from 'axios';
 
 function TaskModal({ addTask, toggleModal }) {
   const [title, setTitle] = useState('');
@@ -20,6 +21,10 @@ function TaskModal({ addTask, toggleModal }) {
     setStatus('');
 
     data.push({ id: data.length + 1, title, description, status });
+
+    const post = axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo`
+    );
   };
 
   const closeModal = (e) => {

@@ -8,36 +8,55 @@ import TaskModal from '@/components/TaskModal/TaskModal';
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar/Navbar';
 import { ToastContainer, toast } from 'react-toastify';
-import { getTodos } from '@/service/todoAPI';
+// import { getTodos } from '@/service/todoAPI';
 import axios from 'axios';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export async function getServerSideProps() {
-  try {
-    // const token = localStorage.getItem('token') || '';
-    const token = localStorage.getItem('token');
+// export async function getServerSideProps() {
+//   try {
+//     // const token = localStorage.getItem('token') || '';
+//     const token = localStorage.getItem('token');
+//     console.log(token);
+//     const response = await axios.get(
+//       'https://fair-tan-drill-suit.cyclic.app/todo/getalltodo',
+//       {
+//         headers: {
+//           Authorization: token,
+//         },
+//       }
+//     );
+//     const data = response.data;
+//     console.log(data);
+//     return { props: { data } };
+//   } catch (error) {
+//     console.error(error);
+//     return { props: { data: null } };
+//   }
+// }
+
+export default function Home({ data }) {
+  async function get() {
+    const token = JSON.parse(localStorage.getItem('token'));
+
     console.log(token);
     const response = await axios.get(
       'https://fair-tan-drill-suit.cyclic.app/todo/getalltodo',
       {
         headers: {
-          Authorization: token,
+          authorization: token,
         },
       }
     );
     const data = response.data;
     console.log(data);
-    return { props: { data } };
-  } catch (error) {
-    console.error(error);
-    return { props: { data: null } };
   }
-}
 
-export default function Home({ data }) {
-  // getTodos();
-  console.log(data);
+  useEffect(() => {
+    get();
+  }, []);
+
+  // console.log(data);
   return (
     <>
       <Head>
