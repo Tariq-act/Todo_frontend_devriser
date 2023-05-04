@@ -11,30 +11,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import { getTodos } from '@/service/todoAPI';
 import axios from 'axios';
 
+import ProtectedRoute from '@/components/ProtectedRoute';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
-  // async function get() {
-  //   const token = JSON.parse(localStorage.getItem('token'));
-
-  //   console.log(token);
-  //   const response = await axios.get(
-  //     'https://fair-tan-drill-suit.cyclic.app/todo/getalltodo',
-  //     {
-  //       headers: {
-  //         authorization: token,
-  //       },
-  //     }
-  //   );
-  //   const data = response.data;
-  //   console.log(data);
-  // }
-
-  // useEffect(() => {
-  //   get();
-  // }, []);
-
-  // console.log(data);
   return (
     <>
       <Head>
@@ -43,11 +24,13 @@ export default function Home() {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
+      {/* <ProtectedRoute> */}
       <main className={` ${inter.className}`}>
         <Navbar />
         <Task />
         <ToastContainer />
       </main>
+      {/* </ProtectedRoute> */}
     </>
   );
 }

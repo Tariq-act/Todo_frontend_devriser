@@ -1,3 +1,5 @@
+'use client';
+
 import {
   IconButton,
   InputBase,
@@ -9,8 +11,10 @@ import {
 } from '@mui/material';
 import { Search, Notifications, Help } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
+import { useTodoContext } from '@/context/todoContext';
 
 import { styled } from '@mui/system';
+import { useEffect, useState } from 'react';
 
 const FlexBetween = styled(Box)({
   display: 'flex',
@@ -20,54 +24,37 @@ const FlexBetween = styled(Box)({
 
 const Navbar = () => {
   const router = useRouter();
-  const user = {
-    firstName: 'Himanshu',
-    lastName: 'Chaudhary',
-  };
+  const { logout } = useTodoContext();
+
+  const [userName, setUserName] = useState('');
+  useEffect(() => {
+    setUserName(localStorage.getItem('user') || '');
+  }, []);
 
   const neutralLight = '#F0F0F0';
   const primaryLight = '#F5E6FF';
   const alt = '#FFFFFF';
 
-  const fullName = `${user.firstName} ${user.lastName}`;
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  };
 
   return (
     <FlexBetween padding='1rem 6%' backgroundColor={alt}>
-      {/* <FlexBetween gap='1.75rem'> */}
       <Typography
         fontWeight='bold'
         fontFamily={'inherit'}
         fontSize='clamp(1rem, 2rem, 2.25rem)'
         color='#8500FA'
-        // sx={{
-        //   '&:hover': {
-        //     color: primaryLight,
-        //     cursor: 'pointer',
-        //   },
-        // }}
       >
         Task Tracker
       </Typography>
 
-      {/* <FlexBetween
-          backgroundColor={neutralLight}
-          borderRadius='9px'
-          gap='3rem'
-          padding='0.1rem 1.5rem'
-        >
-          <InputBase placeholder='Search...' />
-          <IconButton>
-            <Search />
-          </IconButton>
-        </FlexBetween> */}
-      {/* </FlexBetween> */}
-
       <FlexBetween gap='2rem'>
-        {/* <Notifications sx={{ fontSize: '25px' }} />
-        <Help sx={{ fontSize: '25px' }} /> */}
-        <FormControl variant='standard' value={fullName}>
+        <FormControl variant='standard'>
           <Select
-            value={fullName}
+            value={userName}
             sx={{
               backgroundColor: neutralLight,
 
@@ -83,10 +70,10 @@ const Navbar = () => {
             }}
             input={<InputBase />}
           >
-            <MenuItem value={fullName}>
-              <Typography>{fullName}</Typography>
+            <MenuItem value={userName}>
+              <Typography>{userName}</Typography>
             </MenuItem>
-            <MenuItem onClick={() => router.push('/login')}>Log Out</MenuItem>
+            <MenuItem onClick={handleLogout}>Log Out</MenuItem>
           </Select>
         </FormControl>
       </FlexBetween>

@@ -11,57 +11,12 @@ import ReactPaginate from 'react-paginate';
 import { useTodoContext } from '@/context/todoContext';
 
 function TaskList() {
-  const { getAllTodo, todos } = useTodoContext();
-  const [dummyData, setDummyData] = useState([]);
+  const { todos, deleteTask } = useTodoContext();
+
   const [isEdit, setIsEdit] = useState(false);
   const [editData, setEditData] = useState({});
+  console.log(todos);
 
-  // const getalltodo = () => {
-  //   const token = localStorage.getItem('token') || '';
-  //   fetch(
-  //     `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=1`,
-  //     {
-  //       method: 'GET',
-  //       headers: {
-  //         Authorization: token,
-  //         'Content-Type': 'Application/json',
-  //       },
-  //     }
-  //   )
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       console.log(res);
-  //       setDummyData(res.result);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
-
-  // useEffect(() => {
-  //   getalltodo();
-  // }, []);
-  useEffect(() => {
-    getAllTodo();
-  }, []);
-
-  const deleteTask = async (id) => {
-    const token = localStorage.getItem('token');
-    // const updatedData = dummyData.filter((item) => item.id !== id);
-    // setDummyData(updatedData);
-
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/todo/delete/${id}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: token,
-        'Content-Type': 'Application/json',
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        getalltodo();
-      })
-      .catch((err) => console.log(err));
-  };
   const editTask = (task) => {
     setIsEdit(true);
     setEditData(task);
@@ -82,7 +37,7 @@ function TaskList() {
       }}
     >
       <List sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {todos.length > 0 ? (
+        {todos && todos.length > 0 ? (
           todos.map((task, index) => (
             <ListItem
               key={index}
@@ -92,8 +47,7 @@ function TaskList() {
                 backgroundColor: '#fff',
                 borderRadius: '3px',
                 fontFamily: 'inherit',
-                textDecorationLine:
-                  task.status === 'complete' ? 'line-through' : 'none',
+                textDecorationLine: task.status === 1 ? 'line-through' : 'none',
               }}
             >
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>

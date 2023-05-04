@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useTodoContext } from '@/context/todoContext';
 
 const LoginForm = () => {
-  const { login } = useTodoContext();
+  const { login, loading } = useTodoContext();
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,10 +34,16 @@ const LoginForm = () => {
       toast.success('successfully');
     } else {
       toast.error('Invaild');
-      console.log(userData);
+      if (userData.response.data.error) {
+        alert(userData.response.data.error);
+      } else {
+        alert(userData.response.data.message);
+      }
       return;
     }
   };
+
+  console.log(loading);
 
   return (
     <>
@@ -89,7 +95,7 @@ const LoginForm = () => {
                   }}
                   onClick={onSubmit}
                 >
-                  LOGIN
+                  {loading ? 'Loading...' : 'LOGIN'}
                 </Button>
 
                 <Box sx={{ display: 'flex', gap: '.5rem', marginTop: '1rem' }}>

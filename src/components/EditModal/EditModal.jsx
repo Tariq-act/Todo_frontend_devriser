@@ -5,29 +5,32 @@ import { useState } from 'react';
 
 import data from '../../../dummyData.json';
 
+import { useTodoContext } from '@/context/todoContext';
+
 function EditModal({ task, toggleModal, isEdit }) {
+  const { updateTodo } = useTodoContext();
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
   const [status, setStatus] = useState(task.status);
 
-  const getalltodo = () => {
-    const token = localStorage.getItem('token') || '';
-    fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=1`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: token,
-          'Content-Type': 'Application/json',
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const getalltodo = () => {
+  //   const token = localStorage.getItem('token') || '';
+  //   fetch(
+  //     `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=1`,
+  //     {
+  //       method: 'GET',
+  //       headers: {
+  //         Authorization: token,
+  //         'Content-Type': 'Application/json',
+  //       },
+  //     }
+  //   )
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -35,23 +38,23 @@ function EditModal({ task, toggleModal, isEdit }) {
 
     // data.push({ id: data.length + 1, title, description, status });
 
-    const updateTodo = () => {
-      const token = localStorage.getItem('token') || '';
-      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/todo/update/${task.id}`, {
-        method: 'PATCH',
-        headers: {
-          Authorization: token,
-          'Content-Type': 'Application/json',
-        },
-        body: JSON.stringify({ title, description, status }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res);
-          getalltodo();
-        })
-        .catch((err) => console.log(err));
-    };
+    // const updateTodo = () => {
+    //   const token = localStorage.getItem('token') || '';
+    //   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/todo/update/${task.id}`, {
+    //     method: 'PATCH',
+    //     headers: {
+    //       Authorization: token,
+    //       'Content-Type': 'Application/json',
+    //     },
+    //     body: JSON.stringify({ title, description, status }),
+    //   })
+    //     .then((res) => res.json())
+    //     .then((res) => {
+    //       console.log(res);
+    //       getalltodo();
+    //     })
+    //     .catch((err) => console.log(err));
+    // };
 
     // data.map((item) => {
     //   if (item.id === task.id) {
@@ -61,7 +64,7 @@ function EditModal({ task, toggleModal, isEdit }) {
     //   }
     // });
 
-    updateTodo();
+    updateTodo(task.id, { title, description, status });
 
     setTitle('');
     setDescription('');
@@ -107,8 +110,8 @@ function EditModal({ task, toggleModal, isEdit }) {
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
-              <option defaultValue='incomplete'>Incomplete</option>
-              <option value='complete'>complete</option>
+              <option defaultValue={0}>Incomplete</option>
+              <option value={1}>complete</option>
             </select>
           </div>
           <div className={styles.buttonControl}>

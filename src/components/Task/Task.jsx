@@ -3,6 +3,7 @@ import TaskList from '../TaskList/TaskList';
 import { useState } from 'react';
 import TaskModal from '../TaskModal/TaskModal';
 import { Box, Button, MenuItem, Select, styled } from '@mui/material';
+import { useTodoContext } from '@/context/todoContext';
 
 const StyledSelect = styled(Select)({
   backgroundColor: 'white',
@@ -18,9 +19,8 @@ const StyledSelect = styled(Select)({
 });
 
 function Task() {
+  const { pageNo, handleNextPage, handlePrevPage } = useTodoContext();
   const [addTask, setAddTask] = useState(false);
-
-  const [selectStatus, setSelectStatus] = useState('ALL');
 
   const toggleModal = () => {
     setAddTask(!addTask);
@@ -50,17 +50,13 @@ function Task() {
           Add Task
         </Button>
 
-        {/* <StyledSelect
-          value={selectStatus}
-          onChange={(e) => setSelectStatus(e.target.value)}
-          sx={{
-            padding: '0.5rem 1rem',
-          }}
-        >
-          <MenuItem value={'ALL'}>ALL</MenuItem>
-          <MenuItem value='completed'>Completed</MenuItem>
-          <MenuItem value='pending'>Pending</MenuItem>
-        </StyledSelect> */}
+        <Box>
+          <Button disabled={pageNo == 1} onClick={handlePrevPage}>
+            Prev
+          </Button>
+          <Button>{pageNo}</Button>
+          <Button onClick={handleNextPage}>Next</Button>
+        </Box>
       </Box>
 
       <TaskList />

@@ -1,3 +1,5 @@
+'use client';
+
 import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -9,6 +11,9 @@ const TodoContext = createContext({
 
 export const TodoProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
+  const [pageNo, setPageNo] = useState(1);
+  const [loading, setLoading] = useState(false);
+  // const [userToken, setUserToken] = useState('');
 
   const register = async (data) => {
     try {
@@ -17,22 +22,45 @@ export const TodoProvider = ({ children }) => {
         data
       );
 
-      await response;
+      return await response;
     } catch (error) {
-      console.log(error.response.data.error);
-      toast.error(error.response.data.error);
+      console.log(error.response);
+      if (error.response.data.error) {
+        alert(error.response.data.error);
+      } else {
+        alert(error.response.data.message);
+      }
+      // toast.error(error.response.data.error);
     }
   };
 
   const login = async (data) => {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/user/login`,
-      data
-    );
-    const user = await response;
-    localStorage.setItem('token', user.data.access_token);
-    console.log(user);
-    return user;
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/user/login`,
+        data
+      );
+      setLoading(true);
+      const user = await response;
+      setLoading(false);
+      localStorage.setItem('token', user.data.access_token);
+      console.log(user.data.user_name);
+
+      localStorage.setItem('user', user.data.user_name);
+      // setUserToken(localStorage.getItem('token'));
+
+      return user;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  };
+
+  const handleNextPage = () => {
+    setPageNo(pageNo + 1);
+  };
+  const handlePrevPage = () => {
+    setPageNo(pageNo - 1);
   };
 
   // GET ALL TODOS
@@ -40,7 +68,7 @@ export const TodoProvider = ({ children }) => {
   const getAllTodo = () => {
     const token = localStorage.getItem('token') || '';
     fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=1`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=${pageNo}`,
       {
         method: 'GET',
         headers: {
@@ -51,18 +79,92 @@ export const TodoProvider = ({ children }) => {
     )
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
+        console.log(res, 'login');
         setTodos(res.result);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const addTodo = (data) => {
+    const token = localStorage.getItem('token');
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/todo/addtodo`, {
+      method: 'POST',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        getAllTodo();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const deleteTask = async (id) => {
+    const token = localStorage.getItem('token');
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/todo/delete/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'Application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        getAllTodo();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const logout = () => {
+    localStorage.clear();
+  };
+
+  const updateTodo = (id, data) => {
+    const token = localStorage.getItem('token') || '';
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/todo/update/${id}`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'Application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        getAllTodo();
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
     getAllTodo();
-  }, [todos]);
+  }, [pageNo]);
 
   return (
-    <TodoContext.Provider value={{ todos, register, login, getAllTodo }}>
+    <TodoContext.Provider
+      value={{
+        todos,
+        register,
+        login,
+        getAllTodo,
+        deleteTask,
+        addTodo,
+        updateTodo,
+        pageNo,
+        handleNextPage,
+        handlePrevPage,
+        loading,
+        logout,
+      }}
+    >
       {children}
     </TodoContext.Provider>
   );

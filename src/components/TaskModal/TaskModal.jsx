@@ -4,41 +4,44 @@ import styles from '@/styles/TaskModal.module.css';
 import { useState } from 'react';
 
 import data from '../../../dummyData.json';
+import { useTodoContext } from '@/context/todoContext';
 
 function TaskModal({ addTask, toggleModal }) {
+  const { addTodo } = useTodoContext();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState(0);
 
   const onSubmit = (e) => {
     e.preventDefault();
     toggleModal();
+
+    addTodo({ title, description, status });
 
     setTitle('');
     setDescription('');
     setStatus('');
 
     // data.push({ id: data.length + 1, title, description, status });
-    const token = localStorage.getItem('token');
+    //   const token = localStorage.getItem('token');
 
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/todo/addtodo`, {
-      method: 'POST',
-      headers: {
-        Authorization: token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ title, description, status }),
-    })
-      .then((res) => res.json())
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    //   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/todo/addtodo`, {
+    //     method: 'POST',
+    //     headers: {
+    //       Authorization: token,
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ title, description, status }),
+    //   })
+    //     .then((res) => res.json())
+    //     .then((res) => console.log(res))
+    //     .catch((err) => console.log(err));
+    // };
   };
-
   const closeModal = (e) => {
     e.preventDefault();
     toggleModal();
   };
-
   return (
     <div className={addTask ? styles.taskModal : styles.closeModal}>
       <div className={styles.modalOverlay}></div>
@@ -76,8 +79,8 @@ function TaskModal({ addTask, toggleModal }) {
               onChange={(e) => setStatus(e.target.value)}
               required
             >
-              <option defaultValue='incomplete'>Incomplete</option>
-              <option value='complete'>complete</option>
+              <option defaultValue={0}>Incomplete</option>
+              <option value={1}>complete</option>
             </select>
           </div>
           <div className={styles.buttonControl}>

@@ -21,6 +21,7 @@ const RegForm = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     console.log({ firstname, lastname, email, password });
+
     const userData = await register({
       firstname,
       lastname,
@@ -68,7 +69,7 @@ const RegForm = () => {
               <TextField
                 type='text'
                 label='First Name'
-                // name='firstName'
+                required
                 fullWidth
                 value={firstname}
                 onChange={(e) => setFirstname(e.target.value)}
@@ -76,7 +77,7 @@ const RegForm = () => {
               <TextField
                 type='text'
                 label='Last Name'
-                // name='lastName'
+                required
                 fullWidth
                 value={lastname}
                 onChange={(e) => setLastname(e.target.value)}
@@ -84,22 +85,17 @@ const RegForm = () => {
               <TextField
                 type='email'
                 label='Email'
-                // name='email'
+                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <TextField
                 label='Password'
                 type='password'
-                // name='password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {/* <TextField
-                label='Confirm Password'
-                type='password'
-                name='confirmPassword'
-              /> */}
+
               {/* BUTTONS */}
               <Box>
                 <Button
