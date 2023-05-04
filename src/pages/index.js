@@ -13,31 +13,31 @@ import axios from 'axios';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export async function getServerSideProps() {
-  try {
-    // const token = localStorage.getItem('token') || '';
-    const token = localStorage.getItem('token');
-    console.log(token);
-    const response = await axios.get(
-      'https://fair-tan-drill-suit.cyclic.app/todo/getalltodo',
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
-    const data = response.data;
-    console.log(data);
-    return { props: { data } };
-  } catch (error) {
-    console.error(error);
-    return { props: { data: null } };
-  }
-}
 
 export default function Home({ data }) {
-  // getTodos();
+
+  async function get(){
+  const token = JSON.parse(localStorage.getItem('token'));
+    
+  console.log(token);
+  const response = await axios.get(
+    'https://fair-tan-drill-suit.cyclic.app/todo/getalltodo',
+    {
+      headers: {
+        authorization: token,
+      },
+    }
+  );  
+  const data = response.data;
   console.log(data);
+
+  }
+
+  useEffect(()=>{
+get()
+  },[])
+
+  // console.log(data);
   return (
     <>
       <Head>
@@ -54,3 +54,29 @@ export default function Home({ data }) {
     </>
   );
 }
+
+// export async function getStaticProps() {
+//   try {
+//     // const token = localStorage.getItem('token') || '';
+//     const token = JSON.parse(localStorage.getItem('token'));
+
+//     console.log(token);
+//     const response = await axios.get(
+//       'https://fair-tan-drill-suit.cyclic.app/todo/getalltodo',
+//       {
+//         headers: {
+//           authorization: token,
+//         },
+//       }
+//     );  
+//     const data = response.data;
+//     console.log(data);
+
+//     console.log(data)
+
+//     return { props: { data } };
+//   } catch (error) {
+//     console.error("error");
+//     return { props: { data: null } };
+//   }
+// }
