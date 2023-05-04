@@ -1,3 +1,5 @@
+'use client';
+
 import { MdDelete, MdEdit } from 'react-icons/md';
 import data from '../../../dummyData.json';
 import { useEffect, useState } from 'react';
@@ -5,18 +7,84 @@ import { Box, List, ListItem, Typography } from '@mui/material';
 import TaskModal from '../TaskModal/TaskModal';
 import EditModal from '../EditModal/EditModal';
 
+// export async function getServerSideProps() {
+//   const token = localStorage.getItem('token') || '';
+//   let filterId = '';
+//   if (typeof window !== 'undefined') {
+//     filterId = global.window?.localStorage.getItem('token') || '';
+//   }
+//   console.log(filterId);
+
+//   const resp = await fetch(
+//     `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=1`,
+//     {
+//       method: 'GET',
+//       headers: {
+//         Authorization: filterId,
+//         'Content-Type': 'Application/json',
+//       },
+//     }
+//   );
+
+//   return {
+//     props: {
+//       pokemon: await resp.json(),
+//     },
+//   };
+// }
+
 function TaskList() {
-  const [dummyData, setDummyData] = useState(data);
+  const [dummyData, setDummyData] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [editData, setEditData] = useState({});
 
+  const getalltodo = () => {
+    const token = localStorage.getItem('token') || '';
+    fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=1`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: token,
+          'Content-Type': 'Application/json',
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        setDummyData(res.result);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getalltodo();
+  }, []);
+
   const deleteTask = async (id) => {
-    const updatedData = dummyData.filter((item) => item.id !== id);
-    setDummyData(updatedData);
+    const token = localStorage.getItem('token');
+    // const updatedData = dummyData.filter((item) => item.id !== id);
+    // setDummyData(updatedData);
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/todo/delete/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'Application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        getalltodo();
+      })
+      .catch((err) => console.log(err));
   };
   const editTask = (task) => {
     setIsEdit(true);
     setEditData(task);
+    console.log(task);
   };
 
   const toggleModal = () => {
@@ -33,7 +101,7 @@ function TaskList() {
       }}
     >
       <List sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {dummyData ? (
+        {dummyData.length > 0 ? (
           dummyData.map((task, index) => (
             <ListItem
               key={index}

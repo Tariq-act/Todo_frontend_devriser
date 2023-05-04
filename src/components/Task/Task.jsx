@@ -50,7 +50,7 @@ function Task() {
           Add Task
         </Button>
 
-        <StyledSelect
+        {/* <StyledSelect
           value={selectStatus}
           onChange={(e) => setSelectStatus(e.target.value)}
           sx={{
@@ -60,7 +60,7 @@ function Task() {
           <MenuItem value={'ALL'}>ALL</MenuItem>
           <MenuItem value='completed'>Completed</MenuItem>
           <MenuItem value='pending'>Pending</MenuItem>
-        </StyledSelect>
+        </StyledSelect> */}
       </Box>
 
       <TaskList />

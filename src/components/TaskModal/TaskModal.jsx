@@ -4,13 +4,11 @@ import styles from '@/styles/TaskModal.module.css';
 import { useState } from 'react';
 
 import data from '../../../dummyData.json';
-import axios from 'axios';
 
 function TaskModal({ addTask, toggleModal }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState('');
-  console.log(data);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -20,11 +18,20 @@ function TaskModal({ addTask, toggleModal }) {
     setDescription('');
     setStatus('');
 
-    data.push({ id: data.length + 1, title, description, status });
+    // data.push({ id: data.length + 1, title, description, status });
+    const token = localStorage.getItem('token');
 
-    const post = axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo`
-    );
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/todo/addtodo`, {
+      method: 'POST',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title, description, status }),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   const closeModal = (e) => {
@@ -41,6 +48,7 @@ function TaskModal({ addTask, toggleModal }) {
           <div className={styles.formControl}>
             <label htmlFor='title'>Title</label>
             <input
+              required
               type='text'
               name='title'
               id='title'
@@ -51,6 +59,7 @@ function TaskModal({ addTask, toggleModal }) {
           <div className={styles.formControl}>
             <label htmlFor='description'>Description</label>
             <textarea
+              required
               type='text'
               name='description'
               id='description'
@@ -65,6 +74,7 @@ function TaskModal({ addTask, toggleModal }) {
               id='status'
               value={status}
               onChange={(e) => setStatus(e.target.value)}
+              required
             >
               <option defaultValue='incomplete'>Incomplete</option>
               <option value='complete'>complete</option>

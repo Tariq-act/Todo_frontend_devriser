@@ -9,25 +9,63 @@ function EditModal({ task, toggleModal, isEdit }) {
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
   const [status, setStatus] = useState(task.status);
-  console.log(data);
+
+  const getalltodo = () => {
+    const token = localStorage.getItem('token') || '';
+    fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=1`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: token,
+          'Content-Type': 'Application/json',
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
     toggleModal();
 
+    // data.push({ id: data.length + 1, title, description, status });
+
+    const updateTodo = () => {
+      const token = localStorage.getItem('token') || '';
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/todo/update/${task.id}`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: token,
+          'Content-Type': 'Application/json',
+        },
+        body: JSON.stringify({ title, description, status }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
+          getalltodo();
+        })
+        .catch((err) => console.log(err));
+    };
+
+    // data.map((item) => {
+    //   if (item.id === task.id) {
+    //     item.title = title;
+    //     item.description = description;
+    //     item.status = status;
+    //   }
+    // });
+
+    updateTodo();
+
     setTitle('');
     setDescription('');
     setStatus('');
-
-    // data.push({ id: data.length + 1, title, description, status });
-
-    data.map((item) => {
-      if (item.id === task.id) {
-        item.title = title;
-        item.description = description;
-        item.status = status;
-      }
-    });
   };
 
   const closeModal = (e) => {
