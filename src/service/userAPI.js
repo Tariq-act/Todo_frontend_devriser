@@ -1,11 +1,15 @@
 import axios from 'axios';
 export const register = async (data) => {
-  const response = await axios.post(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/user/register`,
-    data
-  );
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/user/register`,
+      data
+    );
 
-  return await response;
+    return await response;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const login = async (data) => {
@@ -15,5 +19,6 @@ export const login = async (data) => {
   );
   const user = await response;
   localStorage.setItem('token', user.data.access_token);
+  console.log(user);
   return user;
 };

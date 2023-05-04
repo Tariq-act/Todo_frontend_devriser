@@ -5,13 +5,39 @@ import styles from '@/styles/Home.module.css';
 import Header from '@/components/Header/Header';
 import Task from '@/components/Task/Task';
 import TaskModal from '@/components/TaskModal/TaskModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar/Navbar';
 import { ToastContainer, toast } from 'react-toastify';
+import { getTodos } from '@/service/todoAPI';
+import axios from 'axios';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function Home() {
+export async function getServerSideProps() {
+  try {
+    // const token = localStorage.getItem('token') || '';
+    const token = localStorage.getItem('token');
+    console.log(token);
+    const response = await axios.get(
+      'https://fair-tan-drill-suit.cyclic.app/todo/getalltodo',
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    const data = response.data;
+    console.log(data);
+    return { props: { data } };
+  } catch (error) {
+    console.error(error);
+    return { props: { data: null } };
+  }
+}
+
+export default function Home({ data }) {
+  // getTodos();
+  console.log(data);
   return (
     <>
       <Head>

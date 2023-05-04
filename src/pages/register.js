@@ -27,7 +27,7 @@ const RegForm = () => {
     });
 
     console.log(userData);
-    if (userData.status == 200) {
+    if (userData && userData.status == 200) {
       router.push('/');
       toast.success('Success');
     } else {
