@@ -67,6 +67,7 @@ export const TodoProvider = ({ children }) => {
 
   const getAllTodo = () => {
     const token = localStorage.getItem('token') || '';
+
     fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=${pageNo}`,
       {
@@ -83,6 +84,22 @@ export const TodoProvider = ({ children }) => {
         setTodos(res.result);
       })
       .catch((err) => console.log(err));
+
+    // axios
+    //   .get(
+    //     `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=${pageNo}`,
+    //     {
+    //       headers: {
+    //         Authorization: token,
+    //         'Content-Type': 'Application/json',
+    //       },
+    //     }
+    //   )
+    //   .then((res) => {
+    //     console.log(res);
+    //     setTodos(res.result);
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
   const addTodo = (data) => {

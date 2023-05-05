@@ -7,7 +7,7 @@ import Task from '@/components/Task/Task';
 import TaskModal from '@/components/TaskModal/TaskModal';
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar/Navbar';
-import { ToastContainer, toast } from 'react-toastify';
+// import { ToastContainer, toast } from 'react-toastify';
 import { getTodos } from '@/service/todoAPI';
 import axios from 'axios';
 
@@ -28,7 +28,6 @@ export default function Home() {
       <main className={` ${inter.className}`}>
         <Navbar />
         <Task />
-        <ToastContainer />
       </main>
       {/* </ProtectedRoute> */}
     </>

@@ -6,7 +6,7 @@ export const getTodos = async () => {
 
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=1`,
       {
         headers: {
           Authorization: token,
