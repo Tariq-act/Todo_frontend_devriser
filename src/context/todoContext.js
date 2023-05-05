@@ -17,11 +17,13 @@ export const TodoProvider = ({ children }) => {
 
   const register = async (data) => {
     try {
+      setLoading(true);
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/user/register`,
         data
       );
 
+      setLoading(false);
       return await response;
     } catch (error) {
       console.log(error.response);
@@ -36,13 +38,13 @@ export const TodoProvider = ({ children }) => {
 
   const login = async (data) => {
     try {
+      setLoading(true);
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/user/login`,
         data
       );
-      setLoading(true);
-      const user = await response;
       setLoading(false);
+      const user = await response;
       localStorage.setItem('token', user.data.access_token);
       console.log(user.data.user_name);
 
@@ -67,14 +69,15 @@ export const TodoProvider = ({ children }) => {
 
   const getAllTodo = () => {
     const token = localStorage.getItem('token') || '';
+    console.log(token);
 
     fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=${pageNo}`,
+      `https://fair-tan-drill-suit.cyclic.app/todo/getalltodo?page=${pageNo}&limit=10`,
       {
         method: 'GET',
         headers: {
           Authorization: token,
-          'Content-Type': 'Application/json',
+          'Content-Type': 'application/json',
         },
       }
     )
