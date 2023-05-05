@@ -12,7 +12,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { useTodoContext } from '@/context/todoContext';
 
+import { useTheme } from '@mui/material';
+
 const LoginForm = () => {
+  const theme = useTheme();
   const { login, loading } = useTodoContext();
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -71,7 +74,17 @@ const LoginForm = () => {
             >
               Login To the Task Tracker
             </Typography>
-            <Box display='grid' gap='1rem' width='500px' margin={'auto'}>
+            <Box
+              display='grid'
+              gap='1rem'
+              width='500px'
+              sx={{
+                [theme.breakpoints.up('sm')]: {
+                  width: '400px',
+                },
+              }}
+              margin={'auto'}
+            >
               <TextField
                 label='Email'
                 value={email}

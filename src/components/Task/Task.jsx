@@ -5,6 +5,8 @@ import TaskModal from '../TaskModal/TaskModal';
 import { Box, Button, MenuItem, Select, styled } from '@mui/material';
 import { useTodoContext } from '@/context/todoContext';
 
+import { useTheme } from '@mui/material';
+
 const StyledSelect = styled(Select)({
   backgroundColor: 'white',
   borderRadius: '4px',
@@ -19,6 +21,7 @@ const StyledSelect = styled(Select)({
 });
 
 function Task() {
+  const theme = useTheme();
   const { pageNo, handleNextPage, handlePrevPage } = useTodoContext();
   const [addTask, setAddTask] = useState(false);
 
@@ -27,7 +30,15 @@ function Task() {
   };
 
   return (
-    <Box sx={{ margin: 'auto' }} maxWidth={'600px'} sm={'400px'}>
+    <Box
+      width={'600px'}
+      sx={{
+        margin: 'auto',
+        [theme.breakpoints.down('sm')]: {
+          width: '400px',
+        },
+      }}
+    >
       <Header />
       <Box
         sx={{

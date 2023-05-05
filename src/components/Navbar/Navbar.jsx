@@ -16,6 +16,8 @@ import { useTodoContext } from '@/context/todoContext';
 import { styled } from '@mui/system';
 import { useEffect, useState } from 'react';
 
+import { useTheme } from '@mui/material';
+
 const FlexBetween = styled(Box)({
   display: 'flex',
   justifyContent: 'space-between',
@@ -23,6 +25,7 @@ const FlexBetween = styled(Box)({
 });
 
 const Navbar = () => {
+  const theme = useTheme();
   const router = useRouter();
   const { logout } = useTodoContext();
 
@@ -47,6 +50,11 @@ const Navbar = () => {
         fontFamily={'inherit'}
         fontSize='clamp(1rem, 2rem, 2.25rem)'
         color='#8500FA'
+        sx={{
+          [theme.breakpoints.down('sm')]: {
+            fontSize: '1.3rem',
+          },
+        }}
       >
         Task Tracker
       </Typography>

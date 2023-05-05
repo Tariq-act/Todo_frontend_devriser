@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+const { enc, AES } = require('crypto-js');
 
 const TodoContext = createContext({
   todos: [],
@@ -65,9 +66,25 @@ export const TodoProvider = ({ children }) => {
     setPageNo(pageNo - 1);
   };
 
+  // URL ENC
+  const getencodedurl = (str) => {
+    const encodedStr = encodeURIComponent(str);
+
+    let encoded_url = AES.encrypt(
+      encodedStr,
+      process.env.NEXT_PUBLIC_KEY
+    ).toString();
+    return encoded_url;
+  };
+
+  const data = getencodedurl('search');
+  console.log(data);
+
   // GET ALL TODOS
 
   const getAllTodo = () => {
+    // const encrypt =
+
     const token = localStorage.getItem('token') || '';
     console.log(token);
 
