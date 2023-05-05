@@ -72,7 +72,7 @@ export const TodoProvider = ({ children }) => {
     console.log(token);
 
     fetch(
-      `https://fair-tan-drill-suit.cyclic.app/todo/getalltodo?page=${pageNo}&limit=10`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?page=${pageNo}&limit=10`,
       {
         method: 'GET',
         headers: {
@@ -87,22 +87,6 @@ export const TodoProvider = ({ children }) => {
         setTodos(res.result);
       })
       .catch((err) => console.log(err));
-
-    // axios
-    //   .get(
-    //     `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=${pageNo}`,
-    //     {
-    //       headers: {
-    //         Authorization: token,
-    //         'Content-Type': 'Application/json',
-    //       },
-    //     }
-    //   )
-    //   .then((res) => {
-    //     console.log(res);
-    //     setTodos(res.result);
-    //   })
-    //   .catch((err) => console.log(err));
   };
 
   const addTodo = (data) => {
