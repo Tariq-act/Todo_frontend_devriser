@@ -89,7 +89,7 @@ export const TodoProvider = ({ children }) => {
     console.log(token);
 
     fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?page=${pageNo}&limit=10`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=${pageNo}`,
       {
         method: 'GET',
         headers: {
