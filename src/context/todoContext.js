@@ -89,7 +89,7 @@ export const TodoProvider = ({ children }) => {
 
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=8&page=1`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=8&page=${pageNo}`,
         {
           headers: {
             'Content-Type': 'application/json',
