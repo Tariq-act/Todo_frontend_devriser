@@ -22,31 +22,15 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
 
   const onSubmit = async () => {
-    if (!email || !password) {
-      toast.error('Invaild');
-      // console.log(userData);
-    }
-    const userData = await login({
+    // if (!email || !password) {
+    //   toast.error('Invaild');
+    //   // console.log(userData);
+    // }
+    login({
       email,
       password,
     });
-
-    console.log(userData);
-    if (userData.status == 200) {
-      router.push('/');
-      toast.success('successfully');
-    } else {
-      toast.error('Invaild');
-      if (userData.response.data.error) {
-        alert(userData.response.data.error);
-      } else {
-        alert(userData.response.data.message);
-      }
-      return;
-    }
   };
-
-  console.log(loading);
 
   return (
     <>
@@ -58,11 +42,12 @@ const LoginForm = () => {
       </Head>
       <Formik>
         <Box
-          height={'100vh'}
-          width={'100vw'}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'center'}
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%,-50%)',
+          }}
         >
           <form>
             <Typography
@@ -71,6 +56,11 @@ const LoginForm = () => {
               color={'#667780'}
               fontWeight={'bold'}
               marginBottom={'1rem'}
+              sx={{
+                [theme.breakpoints.down('sm')]: {
+                  fontSize: '1.2rem',
+                },
+              }}
             >
               Login To the Task Tracker
             </Typography>
@@ -79,8 +69,8 @@ const LoginForm = () => {
               gap='1rem'
               width='500px'
               sx={{
-                [theme.breakpoints.up('sm')]: {
-                  width: '400px',
+                [theme.breakpoints.down('sm')]: {
+                  width: '300px',
                 },
               }}
               margin={'auto'}

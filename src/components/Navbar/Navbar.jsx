@@ -9,7 +9,7 @@ import {
   FormControl,
   Box,
 } from '@mui/material';
-import { Search, Notifications, Help } from '@mui/icons-material';
+
 import { useRouter } from 'next/navigation';
 import { useTodoContext } from '@/context/todoContext';
 
@@ -34,17 +34,13 @@ const Navbar = () => {
     setUserName(localStorage.getItem('user') || '');
   }, []);
 
-  const neutralLight = '#F0F0F0';
-  const primaryLight = '#F5E6FF';
-  const alt = '#FFFFFF';
-
   const handleLogout = () => {
     logout();
     router.push('/login');
   };
 
   return (
-    <FlexBetween padding='1rem 6%' backgroundColor={alt}>
+    <FlexBetween padding='1rem 6%' backgroundColor={'#FFFFFF'}>
       <Typography
         fontWeight='bold'
         fontFamily={'inherit'}
@@ -64,8 +60,7 @@ const Navbar = () => {
           <Select
             value={userName}
             sx={{
-              backgroundColor: neutralLight,
-
+              backgroundColor: '#F0F0F0',
               borderRadius: '0.25rem',
               p: '0.25rem 1rem',
               '& .MuiSvgIcon-root': {
@@ -73,7 +68,7 @@ const Navbar = () => {
                 width: '3rem',
               },
               '& .MuiSelect-select:focus': {
-                backgroundColor: neutralLight,
+                backgroundColor: '#F0F0F0',
               },
             }}
             input={<InputBase />}

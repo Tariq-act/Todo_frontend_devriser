@@ -35,7 +35,7 @@ function Task() {
       sx={{
         margin: 'auto',
         [theme.breakpoints.down('sm')]: {
-          width: '400px',
+          width: '300px',
         },
       }}
     >
@@ -45,6 +45,7 @@ function Task() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          gap: '1rem',
         }}
       >
         <Button
@@ -55,6 +56,9 @@ function Task() {
             textTransform: 'capitalize',
             fontFamily: 'inherit',
             '&:hover': { backgroundColor: '#8500FA' },
+            [theme.breakpoints.down('sm')]: {
+              padding: '0.2rem .5rem',
+            },
           }}
           onClick={toggleModal}
         >
@@ -62,11 +66,28 @@ function Task() {
         </Button>
 
         <Box>
-          <Button disabled={pageNo == 1} onClick={handlePrevPage}>
+          <Button
+            disabled={pageNo == 1}
+            onClick={handlePrevPage}
+            sx={{
+              [theme.breakpoints.down('sm')]: {
+                fontSize: '.8rem',
+              },
+            }}
+          >
             Prev
           </Button>
           <Button>{pageNo}</Button>
-          <Button onClick={handleNextPage}>Next</Button>
+          <Button
+            onClick={handleNextPage}
+            sx={{
+              [theme.breakpoints.down('sm')]: {
+                fontSize: '.8rem',
+              },
+            }}
+          >
+            Next
+          </Button>
         </Box>
       </Box>
 

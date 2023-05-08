@@ -6,13 +6,14 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-// import { register } from '@/service/userAPI';
+import { useTheme } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import { useTodoContext } from '@/context/todoContext';
 
 const RegForm = () => {
   const { register } = useTodoContext();
   const router = useRouter();
+  const theme = useTheme();
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
@@ -20,23 +21,13 @@ const RegForm = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log({ firstname, lastname, email, password });
 
-    const userData = await register({
+    register({
       firstname,
       lastname,
       email,
       password,
     });
-
-    console.log(userData);
-    if (userData && userData.status == 200) {
-      router.push('/login');
-      toast.success('Success');
-    } else {
-      toast.error('Invaild');
-      console.log(userData);
-    }
   };
 
   return (
@@ -49,11 +40,12 @@ const RegForm = () => {
       </Head>
       <Formik>
         <Box
-          height={'100vh'}
-          width={'100vw'}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'center'}
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%,-50%)',
+          }}
         >
           <form>
             <Typography
@@ -62,10 +54,24 @@ const RegForm = () => {
               color={'#667780'}
               fontWeight={'bold'}
               marginBottom={'1rem'}
+              sx={{
+                [theme.breakpoints.down('sm')]: {
+                  fontSize: '1.2rem',
+                },
+              }}
             >
               Register To the Task Tracker
             </Typography>
-            <Box display='grid' gap='1rem' width='500px'>
+            <Box
+              display='grid'
+              gap='1rem'
+              width='500px'
+              sx={{
+                [theme.breakpoints.down('sm')]: {
+                  width: '300px',
+                },
+              }}
+            >
               <TextField
                 type='text'
                 label='First Name'

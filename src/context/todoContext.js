@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 const { enc, AES } = require('crypto-js');
 
@@ -14,6 +15,7 @@ export const TodoProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const register = async (data) => {
     try {
@@ -24,8 +26,10 @@ export const TodoProvider = ({ children }) => {
       );
 
       setLoading(false);
-      return await response;
+      await response;
+      router.push('/login');
     } catch (error) {
+      setLoading(false);
       console.log(error.response);
       if (error.response.data.error) {
         alert(error.response.data.error);
@@ -45,16 +49,18 @@ export const TodoProvider = ({ children }) => {
       setLoading(false);
       const user = await response;
       localStorage.setItem('token', user.data.access_token);
-      console.log(user.data.user_name);
-
       localStorage.setItem('user', user.data.user_name);
-
       getAllTodo();
-
-      return user;
+      router.push('/');
+      // return user;
     } catch (error) {
+      setLoading(false);
       console.log(error);
-      return error;
+      if (error.response.data.error) {
+        alert(error.response.data.error);
+      } else {
+        alert(error.response.data.message);
+      }
     }
   };
 
