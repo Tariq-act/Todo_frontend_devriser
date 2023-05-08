@@ -108,7 +108,7 @@ export const TodoProvider = ({ children }) => {
 
   useEffect(() => {
     getAllTodo();
-  }, []);
+  }, [pageNo]);
 
   const addTodo = (data) => {
     const token = localStorage.getItem('token');
