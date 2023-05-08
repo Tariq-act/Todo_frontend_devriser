@@ -15,7 +15,6 @@ function TaskList() {
 
   const [isEdit, setIsEdit] = useState(false);
   const [editData, setEditData] = useState({});
-  console.log(todos);
 
   const editTask = (task) => {
     setIsEdit(true);

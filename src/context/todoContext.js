@@ -14,7 +14,6 @@ export const TodoProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const [loading, setLoading] = useState(false);
-  // const [userToken, setUserToken] = useState('');
 
   const register = async (data) => {
     try {
@@ -33,7 +32,6 @@ export const TodoProvider = ({ children }) => {
       } else {
         alert(error.response.data.message);
       }
-      // toast.error(error.response.data.error);
     }
   };
 
@@ -50,7 +48,8 @@ export const TodoProvider = ({ children }) => {
       console.log(user.data.user_name);
 
       localStorage.setItem('user', user.data.user_name);
-      // setUserToken(localStorage.getItem('token'));
+
+      getAllTodo();
 
       return user;
     } catch (error) {
@@ -78,33 +77,38 @@ export const TodoProvider = ({ children }) => {
   };
 
   const data = getencodedurl('search');
-  console.log(data);
+  // console.log(data);
 
   // GET ALL TODOS
 
-  const getAllTodo = () => {
+  const getAllTodo = async () => {
     // const encrypt =
 
     const token = localStorage.getItem('token') || '';
     console.log(token);
 
-    fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=${pageNo}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: token,
-          'Content-Type': 'application/json',
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res, 'login');
-        setTodos(res.result);
-      })
-      .catch((err) => console.log(err));
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=8&page=1`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        }
+      );
+
+      const data = await response;
+      setTodos(response.data.todos);
+      console.log(data, token);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    getAllTodo();
+  }, []);
 
   const addTodo = (data) => {
     const token = localStorage.getItem('token');
@@ -164,10 +168,6 @@ export const TodoProvider = ({ children }) => {
       })
       .catch((err) => console.log(err));
   };
-
-  useEffect(() => {
-    getAllTodo();
-  }, [pageNo]);
 
   return (
     <TodoContext.Provider
