@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { useRouter } from 'next/router';
-const router = useRouter();
+// const router = useRouter();
 
 // Define async thunks for registering and logging in users
 export const register = createAsyncThunk('auth/register', async (userData) => {
@@ -21,9 +21,6 @@ export const register = createAsyncThunk('auth/register', async (userData) => {
     return error;
   }
 });
-
-// const { value } = useSelector((state) => state.authUser);
-// const initialMyValue = authSlice.initialState.myValue;
 
 export const login = createAsyncThunk('auth/login', async (userData) => {
   try {
@@ -73,7 +70,9 @@ export const authSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.user = action.payload;
-        localStorage.setItem('user', JSON.stringify(action.payload));
+        localStorage.setItem('token', JSON.stringify(state.user.token));
+        localStorage.setItem('user', JSON.stringify(state.user.email));
+        localStorage.setItem('role', JSON.stringify(state.user.role));
       })
       // Handle register rejected state
       .addCase(register.rejected, (state, action) => {
@@ -93,7 +92,7 @@ export const authSlice = createSlice({
         localStorage.setItem('token', JSON.stringify(state.user.token));
         localStorage.setItem('user', JSON.stringify(state.user.email));
         localStorage.setItem('role', JSON.stringify(state.user.role));
-        router.push('/');
+        // router.push('/');
       })
       // Handle login rejected state
       .addCase(login.rejected, (state, action) => {
