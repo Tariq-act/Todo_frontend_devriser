@@ -8,10 +8,11 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
-import { useTodoContext } from '@/context/todoContext';
+
+import { register } from '@/utils/store/auth';
+import { useDispatch } from 'react-redux';
 
 const RegForm = () => {
-  const { register } = useTodoContext();
   const router = useRouter();
   const theme = useTheme();
   const [firstname, setFirstname] = useState('');
@@ -19,15 +20,19 @@ const RegForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const dispatch = useDispatch();
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    register({
-      firstname,
-      lastname,
-      email,
-      password,
-    });
+    dispatch(
+      register({
+        firstname,
+        lastname,
+        email,
+        password,
+      })
+    );
   };
 
   return (

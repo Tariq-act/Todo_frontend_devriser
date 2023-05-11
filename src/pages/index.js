@@ -3,12 +3,19 @@ import Image from 'next/image';
 import { Inter } from 'next/font/google';
 import Task from '@/components/Task/Task';
 import Navbar from '@/components/Navbar/Navbar';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import PrivateRoute from '@/HOC/private';
+import { useEffect } from 'react';
+import { fetchTodos } from '@/utils/store/task';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
+  const dispatch = useDispatch();
+  const { todos } = useSelector((state) => state);
+
   return (
     <>
       <PrivateRoute>

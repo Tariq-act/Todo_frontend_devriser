@@ -1,35 +1,55 @@
 'use client';
 
-import { Box, Button, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { Formik } from 'formik';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-// import { login } from '@/service/userAPI';
+
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-import { useTodoContext } from '@/context/todoContext';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useTheme } from '@mui/material';
+import {
+  register,
+  login,
+  handleInputChange,
+  selectCounter,
+  setInputValue,
+} from '@/utils/store/auth';
 
 const LoginForm = () => {
   const theme = useTheme();
-  const { login, loading } = useTodoContext();
+
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const dispatch = useDispatch();
+  const { value, user } = useSelector((state) => state.authUser);
+
+  const [role, setRole] = useState(value);
+
+  function handleInputChange(event) {
+    const newValue = event.target.value;
+    dispatch(setInputValue(newValue));
+  }
+
+  console.log(`http://localhost:8080/${value}/login`);
   const onSubmit = async () => {
-    // if (!email || !password) {
-    //   toast.error('Invaild');
-    //   // console.log(userData);
-    // }
-    login({
-      email,
-      password,
-    });
+    console.log(value);
+    dispatch(login({ user: { email, password }, value }));
   };
 
   return (
@@ -87,6 +107,18 @@ const LoginForm = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <FormControl fullWidth>
+                <InputLabel id='role'>Select Role</InputLabel>
+                <Select
+                  value={value}
+                  labelId='role'
+                  label='Select Role'
+                  onChange={handleInputChange}
+                >
+                  <MenuItem value={'client'}>Client</MenuItem>
+                  <MenuItem value={'user'}>User</MenuItem>
+                </Select>
+              </FormControl>
               {/* BUTTONS */}
               <Box>
                 <Button
@@ -98,7 +130,7 @@ const LoginForm = () => {
                   }}
                   onClick={onSubmit}
                 >
-                  {loading ? 'Loading...' : 'LOGIN'}
+                  {/* {loading ? 'Loading...' : 'LOGIN'} */}LOGIN
                 </Button>
 
                 <Box sx={{ display: 'flex', gap: '.5rem', marginTop: '1rem' }}>

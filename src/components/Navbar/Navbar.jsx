@@ -35,7 +35,7 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = () => {
-    logout();
+    // logout();
     router.push('/login');
   };
 

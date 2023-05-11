@@ -2,10 +2,13 @@ import '@/styles/globals.css';
 import { TodoProvider } from '@/context/todoContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Provider } from 'react-redux';
+import store from '@/utils/store/store';
 
 export default function App({ Component, pageProps }) {
   return (
-    <TodoProvider>
+    // <TodoProvider>
+    <Provider store={store}>
       <Component {...pageProps} />;
       {/* <ToastContainer
         position='top-right'
@@ -17,6 +20,7 @@ export default function App({ Component, pageProps }) {
         closeOnClick
         pauseOnHover
       /> */}
-    </TodoProvider>
+    </Provider>
+    // </TodoProvider>
   );
 }

@@ -6,15 +6,25 @@ import { useEffect, useState } from 'react';
 import { Box, List, ListItem, Typography } from '@mui/material';
 import TaskModal from '../TaskModal/TaskModal';
 import EditModal from '../EditModal/EditModal';
-import ReactPaginate from 'react-paginate';
 
 import { useTodoContext } from '@/context/todoContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchTodos } from '@/utils/store/task';
 
 function TaskList() {
-  const { todos, deleteTask } = useTodoContext();
+  const dispatch = useDispatch();
+  // const { todos, deleteTask } = useTodoContext();
 
   const [isEdit, setIsEdit] = useState(false);
   const [editData, setEditData] = useState({});
+
+  const { todos } = useSelector((state) => state.todos);
+
+  console.log(todos);
+
+  useEffect(() => {
+    dispatch(fetchTodos());
+  }, [dispatch]);
 
   const editTask = (task) => {
     setIsEdit(true);
