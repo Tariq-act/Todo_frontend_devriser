@@ -7,64 +7,25 @@ import data from '../../../dummyData.json';
 
 import { useTodoContext } from '@/context/todoContext';
 
+import { useDispatch } from 'react-redux';
+import { fetchTodos, updateTodos } from '@/utils/redux/task';
+
 function EditModal({ task, toggleModal, isEdit }) {
   const { updateTodo } = useTodoContext();
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
   const [status, setStatus] = useState(task.status);
 
-  // const getalltodo = () => {
-  //   const token = localStorage.getItem('token') || '';
-  //   fetch(
-  //     `${process.env.NEXT_PUBLIC_BASE_URL}/todo/getalltodo?limit=10&page=1`,
-  //     {
-  //       method: 'GET',
-  //       headers: {
-  //         Authorization: token,
-  //         'Content-Type': 'Application/json',
-  //       },
-  //     }
-  //   )
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
+  const dispatch = useDispatch();
 
   const onSubmit = (e) => {
     e.preventDefault();
     toggleModal();
 
-    // data.push({ id: data.length + 1, title, description, status });
-
-    // const updateTodo = () => {
-    //   const token = localStorage.getItem('token') || '';
-    //   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/todo/update/${task.id}`, {
-    //     method: 'PATCH',
-    //     headers: {
-    //       Authorization: token,
-    //       'Content-Type': 'Application/json',
-    //     },
-    //     body: JSON.stringify({ title, description, status }),
-    //   })
-    //     .then((res) => res.json())
-    //     .then((res) => {
-    //       console.log(res);
-    //       getalltodo();
-    //     })
-    //     .catch((err) => console.log(err));
-    // };
-
-    // data.map((item) => {
-    //   if (item.id === task.id) {
-    //     item.title = title;
-    //     item.description = description;
-    //     item.status = status;
-    //   }
-    // });
-
-    updateTodo(task.id, { title, description, status });
+    dispatch(
+      updateTodos({ id: task.id, data: { title, description, status } })
+    );
+    dispatch(fetchTodos());
 
     setTitle('');
     setDescription('');

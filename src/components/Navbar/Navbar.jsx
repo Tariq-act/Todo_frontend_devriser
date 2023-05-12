@@ -28,10 +28,9 @@ const Navbar = () => {
   const theme = useTheme();
   const router = useRouter();
   const { logout } = useTodoContext();
-
   const [userName, setUserName] = useState('');
   useEffect(() => {
-    setUserName(localStorage.getItem('user') || '');
+    setUserName(JSON.parse(localStorage.getItem('user')) || '');
   }, []);
 
   const handleLogout = () => {

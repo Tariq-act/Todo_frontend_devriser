@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 
 import PrivateRoute from '@/HOC/private';
 import { useEffect } from 'react';
-import { fetchTodos } from '@/utils/store/task';
+import { fetchTodos } from '@/utils/redux/task';
 
 const inter = Inter({ subsets: ['latin'] });
 

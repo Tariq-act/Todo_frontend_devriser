@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 
-import { register } from '@/utils/store/auth';
+import { register } from '@/utils/redux/auth';
 import { useDispatch } from 'react-redux';
 
 const RegForm = () => {

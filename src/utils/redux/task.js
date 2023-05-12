@@ -1,4 +1,10 @@
+'use client';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  getTokenFromLocalStorage,
+  getEmailFromLocalStorage,
+  getRolelFromLocalStorage,
+} from '../utils';
 
 const initialState = {
   todos: [],
@@ -6,10 +12,20 @@ const initialState = {
   error: null,
 };
 // Step 2: Define async functions for each API operation
+// console.log(userEmail);
 const fetchData = async () => {
+  const email = getEmailFromLocalStorage();
+  console.log(email);
   try {
-    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+    const response = await fetch('http://localhost:8090/todo/alltodo', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: email,
+      },
+    });
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
     return error;
@@ -17,41 +33,66 @@ const fetchData = async () => {
 };
 
 const createData = async (payload) => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
-    method: 'POST',
-    body: JSON.stringify(payload),
-    headers: {
-      'Content-type': 'application/json; charset=UTF-8',
-    },
-  });
-  const data = await response.json();
-  return data;
+  const token = getTokenFromLocalStorage();
+  const email = getEmailFromLocalStorage();
+  console.log(payload);
+  try {
+    const response = await fetch('http://localhost:8090/todo/addtodo', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+        email,
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
 };
 
 const updateData = async (payload) => {
+  const token = getTokenFromLocalStorage();
+  const email = getEmailFromLocalStorage();
+  console.log(payload.data);
   const response = await fetch(
-    `https://jsonplaceholder.typicode.com/posts/${payload.id}`,
+    `http://localhost:8090/todo/update/${payload.id}`,
     {
-      method: 'PUT',
-      body: JSON.stringify(payload),
+      method: 'PATCH',
+      body: JSON.stringify(payload.data),
       headers: {
-        'Content-type': 'application/json; charset=UTF-8',
+        Authorization: token,
+        email,
       },
     }
   );
   const data = await response.json();
+  console.log(data);
   return data;
 };
 
 const deleteData = async (id) => {
-  const response = await fetch(
-    `https://jsonplaceholder.typicode.com/posts/${id}`,
-    {
+  const token = getTokenFromLocalStorage();
+  const email = getEmailFromLocalStorage();
+  console.log(id);
+  try {
+    const response = await fetch(`http://localhost:8090/todo/delete/${id}`, {
       method: 'DELETE',
-    }
-  );
-  const data = await response.json();
-  return data;
+      headers: {
+        Authorization: token,
+        email,
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    // return data;
+  } catch (error) {
+    console.log(error);
+    return;
+  }
 };
 
 // Step 3: Create an async thunk for each API operation
@@ -100,15 +141,17 @@ const todoSlice = createSlice({
         state.todos.push(action.payload);
       })
       .addCase(updateTodos.fulfilled, (state, action) => {
-        const index = state.todos.findIndex(
-          (post) => post.id === action.payload.id
-        );
-        if (index !== -1) {
-          state.todos[index] = action.payload;
-        }
+        // const index = state.todos.findIndex(
+        //   (post) => post.id === action.payload.id
+        // );
+        // if (index !== -1) {
+        //   state.todos[index] = action.payload;
+        // }
       })
       .addCase(deleteTodos.fulfilled, (state, action) => {
-        return state.todos.filter((post) => post.id !== action.payload.id);
+        // console.log(state);
+        // console.log(action);
+        // return state.todos.filter((post) => post.id !== action.payload.id);
       });
   },
 });

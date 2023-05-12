@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 // Define async thunks for registering and logging in users
 export const register = createAsyncThunk('auth/register', async (userData) => {
   try {
-    const response = await fetch(`http://localhost:8080/client/register`, {
+    const response = await fetch(`http://localhost:8090/client/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -23,9 +23,11 @@ export const register = createAsyncThunk('auth/register', async (userData) => {
 });
 
 export const login = createAsyncThunk('auth/login', async (userData) => {
+  const user = localStorage.getItem('token');
+  console.log(user);
   try {
     const response = await fetch(
-      `http://localhost:8080/${userData.value}/login`,
+      `http://localhost:8090/${userData.value}/login`,
       {
         method: 'POST',
         headers: {

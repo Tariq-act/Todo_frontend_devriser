@@ -27,7 +27,7 @@ import {
   handleInputChange,
   selectCounter,
   setInputValue,
-} from '@/utils/store/auth';
+} from '@/utils/redux/auth';
 
 const LoginForm = () => {
   const theme = useTheme();

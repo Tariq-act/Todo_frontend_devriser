@@ -9,7 +9,7 @@ import EditModal from '../EditModal/EditModal';
 
 import { useTodoContext } from '@/context/todoContext';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTodos } from '@/utils/store/task';
+import { deleteTodos, fetchTodos } from '@/utils/redux/task';
 
 function TaskList() {
   const dispatch = useDispatch();
@@ -30,6 +30,11 @@ function TaskList() {
     setIsEdit(true);
     setEditData(task);
     console.log(task);
+  };
+
+  const handleDelete = (id) => {
+    dispatch(deleteTodos(id));
+    dispatch(fetchTodos());
   };
 
   const toggleModal = () => {
@@ -68,8 +73,9 @@ function TaskList() {
                     fontWeight: 'bold',
                   }}
                 >
-                  {task.title.charAt(0).toUpperCase()}
-                  {task.title.slice(1)}
+                  {/* {task.title.charAt(0).toUpperCase()}
+                  {task.title.slice(1)} */}
+                  {task.title}
                 </Typography>
                 <Typography sx={{ fontSize: '0.9rem' }}>
                   {task.description}
@@ -86,7 +92,7 @@ function TaskList() {
                 <Typography
                   variant='span'
                   sx={{ cursor: 'pointer' }}
-                  onClick={() => deleteTask(task.id)}
+                  onClick={() => handleDelete(task.id)}
                 >
                   <MdDelete size={20} color='#E06469' />
                 </Typography>

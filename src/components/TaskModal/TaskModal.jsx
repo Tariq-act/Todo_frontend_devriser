@@ -5,38 +5,27 @@ import { useState } from 'react';
 
 import data from '../../../dummyData.json';
 import { useTodoContext } from '@/context/todoContext';
+import { useDispatch } from 'react-redux';
+import { createTodos, fetchTodos } from '@/utils/redux/task';
 
 function TaskModal({ addTask, toggleModal }) {
-  const { addTodo } = useTodoContext();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState(0);
+
+  const dispatch = useDispatch();
 
   const onSubmit = (e) => {
     e.preventDefault();
     toggleModal();
 
-    addTodo({ title, description, status });
+    // addTodo({ title, description, status });
+    dispatch(createTodos({ title, description, status }));
+    dispatch(fetchTodos());
 
     setTitle('');
     setDescription('');
     setStatus('');
-
-    // data.push({ id: data.length + 1, title, description, status });
-    //   const token = localStorage.getItem('token');
-
-    //   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/todo/addtodo`, {
-    //     method: 'POST',
-    //     headers: {
-    //       Authorization: token,
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({ title, description, status }),
-    //   })
-    //     .then((res) => res.json())
-    //     .then((res) => console.log(res))
-    //     .catch((err) => console.log(err));
-    // };
   };
   const closeModal = (e) => {
     e.preventDefault();

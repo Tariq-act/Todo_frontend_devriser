@@ -1,9 +1,9 @@
 import '@/styles/globals.css';
-import { TodoProvider } from '@/context/todoContext';
+// import { TodoProvider } from '@/context/todoContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
-import store from '@/utils/store/store';
+import store from '@/utils/redux/store';
 
 export default function App({ Component, pageProps }) {
   return (
