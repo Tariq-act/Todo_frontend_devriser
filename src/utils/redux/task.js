@@ -21,7 +21,7 @@ const fetchData = async () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: email,
+        email,
       },
     });
     const data = await response.json();
@@ -58,6 +58,7 @@ const updateData = async (payload) => {
   const token = getTokenFromLocalStorage();
   const email = getEmailFromLocalStorage();
   console.log(payload.data);
+
   const response = await fetch(
     `http://localhost:8090/todo/update/${payload.id}`,
     {
@@ -69,6 +70,7 @@ const updateData = async (payload) => {
       },
     }
   );
+  console.log(payload.data);
   const data = await response.json();
   console.log(data);
   return data;

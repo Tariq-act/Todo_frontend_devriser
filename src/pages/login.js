@@ -28,6 +28,7 @@ import {
   selectCounter,
   setInputValue,
 } from '@/utils/redux/auth';
+import { useRouter } from 'next/router';
 
 const LoginForm = () => {
   const theme = useTheme();
@@ -50,6 +51,7 @@ const LoginForm = () => {
   const onSubmit = async () => {
     console.log(value);
     dispatch(login({ user: { email, password }, value }));
+    router('/');
   };
 
   return (
