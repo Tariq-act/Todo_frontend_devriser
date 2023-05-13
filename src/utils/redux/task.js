@@ -17,13 +17,16 @@ const fetchData = async () => {
   const email = getEmailFromLocalStorage();
   console.log(email);
   try {
-    const response = await fetch('http://localhost:8090/todo/alltodo', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        email,
-      },
-    });
+    const response = await fetch(
+      'http://localhost:8090/todo/alltodo?page=1&limit=10',
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          email,
+        },
+      }
+    );
     const data = await response.json();
     console.log(data);
     return data;
@@ -123,7 +126,17 @@ export const deleteTodos = createAsyncThunk('posts/deletePost', async (id) => {
 const todoSlice = createSlice({
   name: 'todos',
   initialState,
-  reducers: {},
+  reducers: {
+    // updateTodo: (state, payload) => {
+    //   console.log(state);
+    //   const index = state.todos.findIndex(
+    //     (post) => post.id === action.payload.id
+    //   );
+    //   if (index !== -1) {
+    //     state.todos[index] = action.payload.data;
+    //   }
+    // },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchTodos.pending, (state, action) => {
@@ -140,15 +153,16 @@ const todoSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(createTodos.fulfilled, (state, action) => {
+        console.log(state.todos);
         state.todos.push(action.payload);
       })
       .addCase(updateTodos.fulfilled, (state, action) => {
-        // const index = state.todos.findIndex(
-        //   (post) => post.id === action.payload.id
-        // );
-        // if (index !== -1) {
-        //   state.todos[index] = action.payload;
-        // }
+        const index = state.todos.findIndex(
+          (post) => post.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.todos[index] = action.payload.data;
+        }
       })
       .addCase(deleteTodos.fulfilled, (state, action) => {
         // console.log(state);
@@ -160,5 +174,7 @@ const todoSlice = createSlice({
 
 // export const { getTasks, addTask, removeTask, completedTask } =
 //   taskSlice.actions;
+
+export const { updateTodo } = todoSlice.actions;
 
 export default todoSlice.reducer;

@@ -7,6 +7,7 @@ import data from '../../../dummyData.json';
 import { useTodoContext } from '@/context/todoContext';
 import { useDispatch } from 'react-redux';
 import { createTodos, fetchTodos } from '@/utils/redux/task';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 function TaskModal({ addTask, toggleModal }) {
   const [title, setTitle] = useState('');
@@ -15,12 +16,13 @@ function TaskModal({ addTask, toggleModal }) {
 
   const dispatch = useDispatch();
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     toggleModal();
 
     // addTodo({ title, description, status });
-    dispatch(createTodos({ title, description, status }));
+    const result = await dispatch(createTodos({ title, description, status }));
+    unwrapResult(result);
     dispatch(fetchTodos());
 
     setTitle('');
