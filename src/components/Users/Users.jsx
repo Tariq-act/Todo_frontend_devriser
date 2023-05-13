@@ -15,10 +15,40 @@ const Users = () => {
     { _id: "1", name: "John Doe", email: "johndoe@example.com" },
     { _id: "2", name: "Jane Smith", email: "janesmith@example.com" },
     { _id: "3", name: "Bob Johnson", email: "bobjohnson@example.com" },
+    { _id: "1", name: "John Doe", email: "johndoe@example.com" },
+    { _id: "2", name: "Jane Smith", email: "janesmith@example.com" },
+    { _id: "3", name: "Bob Johnson", email: "bobjohnson@example.com" },
+    { _id: "1", name: "John Doe", email: "johndoe@example.com" },
+    { _id: "2", name: "Jane Smith", email: "janesmith@example.com" },
+    { _id: "3", name: "Bob Johnson", email: "bobjohnson@example.com" },
+    { _id: "1", name: "John Doe", email: "johndoe@example.com" },
+    { _id: "2", name: "Jane Smith", email: "janesmith@example.com" },
+    { _id: "3", name: "Bob Johnson", email: "bobjohnson@example.com" },
+    { _id: "1", name: "John Doe", email: "johndoe@example.com" },
+    { _id: "2", name: "Jane Smith", email: "janesmith@example.com" },
+    { _id: "3", name: "Bob Johnson", email: "bobjohnson@example.com" },
+    { _id: "1", name: "John Doe", email: "johndoe@example.com" },
+    { _id: "2", name: "Jane Smith", email: "janesmith@example.com" },
+    { _id: "3", name: "Bob Johnson", email: "bobjohnson@example.com" },
+    { _id: "1", name: "John Doe", email: "johndoe@example.com" },
+    { _id: "2", name: "Jane Smith", email: "janesmith@example.com" },
+    { _id: "3", name: "Bob Johnson", email: "bobjohnson@example.com" },
+    { _id: "1", name: "John Doe", email: "johndoe@example.com" },
+    { _id: "2", name: "Jane Smith", email: "janesmith@example.com" },
+    { _id: "3", name: "Bob Johnson", email: "bobjohnson@example.com" },
+    { _id: "1", name: "John Doe", email: "johndoe@example.com" },
+    { _id: "2", name: "Jane Smith", email: "janesmith@example.com" },
+    { _id: "3", name: "Bob Johnson", email: "bobjohnson@example.com" },
   ];
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" mt="50px">
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      height="100%"
+    >
       <Box textAlign="center">
         <Typography
           variant="h2"
@@ -33,7 +63,7 @@ const Users = () => {
         </Typography>
       </Box>
       <Box mt="40px">
-        <TableContainer component={Box} maxHeight="50vh" overflowY="scroll">
+        <TableContainer component={Box}>
           <Table>
             <TableHead>
               <TableRow>
@@ -42,6 +72,10 @@ const Users = () => {
                 <TableCell>Email</TableCell>
               </TableRow>
             </TableHead>
+          </Table>
+        </TableContainer>
+        <TableContainer component={Box} maxHeight="50vh" overflowY="scroll">
+          <Table>
             <TableBody>
               {users.map((user) => (
                 <TableRow key={user._id}>

@@ -7,32 +7,43 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(2),
-    height: '100vh',
-    width: '100vw',
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
   },
   container: {
-    display: 'flex',
-    flexDirection: 'row',
     width: '100%',
     height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'row',
+    },
   },
   left: {
-    width: '50%',
-    height: '100%',
+    width: '100%',
+    height: '50%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: '100px',
+    [theme.breakpoints.up('md')]: {
+      width: '50%',
+      height: '100%',
+    },
   },
   right: {
-    width: '50%',
-    height: '100%',
+    width: '100%',
+    height: '50%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    [theme.breakpoints.up('md')]: {
+      width: '50%',
+      height: '100%',
+    },
   },
   users: {
     display: 'flex',
@@ -40,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function formUser() {
+export default function FormUser() {
   const classes = useStyles();
   const [isMounted, setIsMounted] = useState(false);
 
