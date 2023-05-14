@@ -13,11 +13,13 @@ export const register = createAsyncThunk('auth/register', async (userData) => {
       body: JSON.stringify(userData),
     });
     const data = await response.json();
-    console.log(data);
+    if (data.error) {
+      alert(data.error);
+    }
 
     return await response.data;
   } catch (error) {
-    console.log(error);
+    alert(error.error);
     return error;
   }
 });

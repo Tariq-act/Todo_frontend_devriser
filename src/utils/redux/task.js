@@ -5,6 +5,7 @@ import {
   getEmailFromLocalStorage,
   getRolelFromLocalStorage,
 } from '../utils';
+import { toast } from 'react-toastify';
 
 const initialState = {
   todos: [],
@@ -28,9 +29,12 @@ const fetchData = async () => {
       }
     );
     const data = await response.json();
-    console.log(data);
+    // if (data.error) {
+    //   toas(data.error);
+    // }
     return data;
   } catch (error) {
+    alert(error.error);
     return error;
   }
 };
@@ -60,7 +64,6 @@ const createData = async (payload) => {
 const updateData = async (payload) => {
   const token = getTokenFromLocalStorage();
   const email = getEmailFromLocalStorage();
-  console.log(payload.data);
 
   const response = await fetch(
     `http://localhost:8090/todo/update/${payload.id}`,
@@ -68,12 +71,13 @@ const updateData = async (payload) => {
       method: 'PATCH',
       body: JSON.stringify(payload.data),
       headers: {
+        'Content-Type': 'application/json',
         Authorization: token,
-        email,
+        email: email,
       },
     }
   );
-  console.log(payload.data);
+
   const data = await response.json();
   console.log(data);
   return data;

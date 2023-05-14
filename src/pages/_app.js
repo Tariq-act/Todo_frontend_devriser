@@ -10,16 +10,16 @@ export default function App({ Component, pageProps }) {
     // <TodoProvider>
     <Provider store={store}>
       <Component {...pageProps} />;
-      {/* <ToastContainer
+      <ToastContainer
         position='top-right'
-        autoClose={8000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         draggable={false}
         pauseOnVisibilityChange
         closeOnClick
         pauseOnHover
-      /> */}
+      />
     </Provider>
     // </TodoProvider>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Typography,
   Box,
@@ -8,32 +8,32 @@ import {
   TableRow,
   TableCell,
   TableBody,
-} from "@mui/material";
+} from '@mui/material';
 
 const Users = () => {
   const users = [
-    { _id: "1", name: "John Doe", email: "johndoe@example.com" },
-    { _id: "2", name: "Jane Smith", email: "janesmith@example.com" },
-    { _id: "3", name: "Bob Johnson", email: "bobjohnson@example.com" },
+    { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
+    { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
+    { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
   ];
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" mt="50px">
-      <Box textAlign="center">
+    <Box display='flex' flexDirection='column' alignItems='center' mt='50px'>
+      <Box textAlign='center'>
         <Typography
-          variant="h2"
-          color="#7c5b8c"
-          fontWeight="bold"
-          sx={{ mb: "5px" }}
+          variant='h2'
+          color='#7c5b8c'
+          fontWeight='bold'
+          sx={{ mb: '5px' }}
         >
           USERS
         </Typography>
-        <Typography variant="h5" color="#d6a3ff">
+        <Typography variant='h5' color='#d6a3ff'>
           List Of Users
         </Typography>
       </Box>
-      <Box mt="40px">
-        <TableContainer component={Box} maxHeight="50vh" overflowY="scroll">
+      <Box mt='40px'>
+        <TableContainer component={Box} maxHeight='50vh' overflow={'scroll'}>
           <Table>
             <TableHead>
               <TableRow>

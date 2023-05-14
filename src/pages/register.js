@@ -23,6 +23,15 @@ const RegForm = () => {
   const dispatch = useDispatch();
 
   const onSubmit = async (e) => {
+    if (!email && !password && !firstname && !lastname) {
+      alert('Please Fill all the fields');
+      return;
+    }
+
+    if (password.length < 6) {
+      alert('Password Should be Six digit or more');
+      return;
+    }
     e.preventDefault();
 
     dispatch(

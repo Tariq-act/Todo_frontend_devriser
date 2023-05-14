@@ -8,6 +8,7 @@ import {
   MenuItem,
   FormControl,
   Box,
+  Button,
 } from '@mui/material';
 
 import { useRouter } from 'next/navigation';
@@ -17,6 +18,7 @@ import { styled } from '@mui/system';
 import { useEffect, useState } from 'react';
 
 import { useTheme } from '@mui/material';
+import Link from 'next/link';
 
 const FlexBetween = styled(Box)({
   display: 'flex',
@@ -29,8 +31,12 @@ const Navbar = () => {
   const router = useRouter();
   const { logout } = useTodoContext();
   const [userName, setUserName] = useState('');
+  const [isDashboard, setIsDashboard] = useState(false);
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      if (JSON.parse(localStorage.getItem('role')) === 'client') {
+        setIsDashboard(true);
+      }
       setUserName(JSON.parse(localStorage.getItem('user')) || '');
       // Add any additional logic for token validation, if needed
     }
@@ -82,6 +88,13 @@ const Navbar = () => {
             <MenuItem onClick={handleLogout}>Log Out</MenuItem>
           </Select>
         </FormControl>
+        {isDashboard && (
+          <Box>
+            <Link href='/formUser'>
+              <Button>Go to Dashboard</Button>
+            </Link>
+          </Box>
+        )}
       </FlexBetween>
     </FlexBetween>
   );

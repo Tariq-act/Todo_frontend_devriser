@@ -47,9 +47,20 @@ const LoginForm = () => {
   }
 
   const onSubmit = async () => {
-    console.log(value);
+    if (!email && !password) {
+      alert('Please Fill all the fields');
+      return;
+    }
+
+    if (password.length < 6) {
+      alert('Password Should be Six digit or more');
+      return;
+    }
+
     dispatch(login({ user: { email, password }, value }));
-    router.push('/');
+    if (JSON.parse(localStorage.getItem('token')) != 'undefined') {
+      router.push('/');
+    }
   };
 
   return (

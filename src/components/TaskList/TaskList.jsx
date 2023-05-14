@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { Box, List, ListItem, Typography } from '@mui/material';
 import TaskModal from '../TaskModal/TaskModal';
 import EditModal from '../EditModal/EditModal';
+import { toast } from 'react-toastify';
 
 import { useTodoContext } from '@/context/todoContext';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,9 +19,18 @@ function TaskList() {
   const [isEdit, setIsEdit] = useState(false);
   const [editData, setEditData] = useState({});
 
-  const { todos } = useSelector((state) => state.todos);
+  const { todos, loading } = useSelector((state) => state.todos);
 
   console.log(todos);
+  // useEffect(() => {
+  //   const targetTime = new Date(2022, 11, 20, 11, 7 - 5);
+  //   if (todos.error) {
+  //     setTimeout(
+  //       toast.error('Limit Exceed Please after Few Minutes'),
+  //       targetTime - Date.now()
+  //     );
+  //   }
+  // });
 
   useEffect(() => {
     dispatch(fetchTodos());
@@ -51,7 +61,7 @@ function TaskList() {
       }}
     >
       <List sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {todos !== undefined && todos.length > 0 ? (
+        {!todos.error && todos !== undefined && todos.length > 0 ? (
           todos.map((task, index) => (
             <ListItem
               key={index}
@@ -67,23 +77,27 @@ function TaskList() {
                     : 'none',
               }}
             >
-              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography
-                  sx={{
-                    fontSize: '1.2rem',
-                    fontFamily: 'inherit',
-                    color: '#667780',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {/* {task.title.charAt(0).toUpperCase()}
-                  {task.title.slice(1)} */}
-                  {task.title}
-                </Typography>
-                <Typography sx={{ fontSize: '0.9rem' }}>
-                  {task.description}
-                </Typography>
-              </Box>
+              {loading ? (
+                'Loading'
+              ) : (
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <Typography
+                    sx={{
+                      fontSize: '1.2rem',
+                      fontFamily: 'inherit',
+                      color: '#667780',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {/* {task.title.charAt(0).toUpperCase()}
+                    {task.title.slice(1)} */}
+                    {/* {task.title} */}
+                  </Typography>
+                  <Typography sx={{ fontSize: '0.9rem' }}>
+                    {task.description}
+                  </Typography>
+                </Box>
+              )}
               <Box
                 sx={{
                   display: 'flex',
