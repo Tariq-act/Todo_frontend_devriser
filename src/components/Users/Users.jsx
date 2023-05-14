@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Typography,
   Box,
@@ -10,36 +10,46 @@ import {
   TableBody,
 } from '@mui/material';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchUsers } from '@/utils/redux/user';
+
 const Users = () => {
-  const users = [
-    { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
-    { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
-    { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
-    { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
-    { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
-    { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
-    { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
-    { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
-    { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
-    { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
-    { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
-    { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
-    { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
-    { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
-    { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
-    { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
-    { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
-    { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
-    { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
-    { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
-    { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
-    { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
-    { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
-    { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
-    { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
-    { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
-    { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
-  ];
+  const { users } = useSelector((state) => state.users);
+  console.log(users);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
+  // const users = [
+  //   { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
+  //   { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
+  //   { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
+  //   { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
+  //   { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
+  //   { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
+  //   { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
+  //   { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
+  //   { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
+  //   { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
+  //   { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
+  //   { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
+  //   { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
+  //   { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
+  //   { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
+  //   { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
+  //   { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
+  //   { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
+  //   { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
+  //   { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
+  //   { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
+  //   { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
+  //   { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
+  //   { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
+  //   { _id: '1', name: 'John Doe', email: 'johndoe@example.com' },
+  //   { _id: '2', name: 'Jane Smith', email: 'janesmith@example.com' },
+  //   { _id: '3', name: 'Bob Johnson', email: 'bobjohnson@example.com' },
+  // ];
 
   return (
     <Box
@@ -77,13 +87,18 @@ const Users = () => {
         <TableContainer component={Box} maxHeight='50vh' overflowY='scroll'>
           <Table>
             <TableBody>
-              {users.map((user) => (
-                <TableRow key={user._id}>
-                  <TableCell>{user._id}</TableCell>
-                  <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                </TableRow>
-              ))}
+              {users !== 'undefined' && users ? (
+                users.map((user, i) => (
+                  <TableRow key={i}>
+                    <TableCell>{i + 1}</TableCell>
+                    <TableCell>{user.firstname}</TableCell>
+                    <TableCell>{user.lastname}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <Typography>No user found</Typography>
+              )}
             </TableBody>
           </Table>
         </TableContainer>

@@ -16,10 +16,13 @@ const initialState = {
 // console.log(userEmail);
 const fetchData = async () => {
   const email = getEmailFromLocalStorage();
+  const role = getRolelFromLocalStorage();
   console.log(email);
   try {
     const response = await fetch(
-      'http://localhost:8090/todo/alltodo?page=1&limit=10',
+      role == 'client'
+        ? 'http://localhost:8090/todo/alltodo?page=1&limit=10'
+        : 'http://localhost:8090/todo/useralltodo?page=1&limit=10',
       {
         method: 'GET',
         headers: {
@@ -29,9 +32,9 @@ const fetchData = async () => {
       }
     );
     const data = await response.json();
-    // if (data.error) {
-    //   toas(data.error);
-    // }
+    if (data.error) {
+      return;
+    }
     return data;
   } catch (error) {
     alert(error.error);
@@ -42,17 +45,23 @@ const fetchData = async () => {
 const createData = async (payload) => {
   const token = getTokenFromLocalStorage();
   const email = getEmailFromLocalStorage();
+  const role = getRolelFromLocalStorage();
   console.log(payload);
   try {
-    const response = await fetch('http://localhost:8090/todo/addtodo', {
-      method: 'POST',
-      body: JSON.stringify(payload),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-        email,
-      },
-    });
+    const response = await fetch(
+      role == 'client'
+        ? 'http://localhost:8090/todo/addtodo'
+        : 'http://localhost:8090/todo/useraddtodo',
+      {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+          email,
+        },
+      }
+    );
     const data = await response.json();
     return data;
   } catch (error) {
@@ -64,9 +73,12 @@ const createData = async (payload) => {
 const updateData = async (payload) => {
   const token = getTokenFromLocalStorage();
   const email = getEmailFromLocalStorage();
+  const role = getRolelFromLocalStorage();
 
   const response = await fetch(
-    `http://localhost:8090/todo/update/${payload.id}`,
+    role == 'client'
+      ? `http://localhost:8090/todo/update/${payload.id}`
+      : `http://localhost:8090/todo/userupdatetodo/${payload.id}`,
     {
       method: 'PATCH',
       body: JSON.stringify(payload.data),
@@ -86,15 +98,21 @@ const updateData = async (payload) => {
 const deleteData = async (id) => {
   const token = getTokenFromLocalStorage();
   const email = getEmailFromLocalStorage();
+  const role = getRolelFromLocalStorage();
   console.log(id);
   try {
-    const response = await fetch(`http://localhost:8090/todo/delete/${id}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: token,
-        email,
-      },
-    });
+    const response = await fetch(
+      role == 'client'
+        ? `http://localhost:8090/todo/delete/${id}`
+        : `http://localhost:8090/todo/userdeletetodo/${id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: token,
+          email,
+        },
+      }
+    );
     const data = await response.json();
     console.log(data);
     // return data;
@@ -161,17 +179,21 @@ const todoSlice = createSlice({
         state.todos.push(action.payload);
       })
       .addCase(updateTodos.fulfilled, (state, action) => {
-        const index = state.todos.findIndex(
-          (post) => post.id === action.payload.id
-        );
-        if (index !== -1) {
-          state.todos[index] = action.payload.data;
-        }
+        // const index = state.todos.findIndex(
+        //   (post) => post.id === action.payload.id
+        // );
+        // if (index !== -1) {
+        //   state.todos[index] = action.payload.data;
+        // }
+        state.loading = false;
+        state.error = null;
       })
       .addCase(deleteTodos.fulfilled, (state, action) => {
         // console.log(state);
         // console.log(action);
         // return state.todos.filter((post) => post.id !== action.payload.id);
+        state.loading = false;
+        state.error = null;
       });
   },
 });

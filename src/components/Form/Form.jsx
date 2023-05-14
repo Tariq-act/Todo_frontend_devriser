@@ -5,16 +5,28 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 
 import { Formik } from 'formik';
-
+import { useDispatch } from 'react-redux';
+import { addUsers, fetchUsers } from '@/utils/redux/user';
 const Form = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    if (!firstName && !lastName && !email && !password) {
+      alert('Fill all the fields');
+      return;
+    }
+    dispatch(
+      addUsers({ firstname: firstName, lastname: lastName, email, password })
+    );
+
+    dispatch(fetchUsers());
+  };
 
   return (
     <Formik>

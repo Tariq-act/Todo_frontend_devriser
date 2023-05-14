@@ -6,9 +6,7 @@ import { useEffect, useState } from 'react';
 import { Box, List, ListItem, Typography } from '@mui/material';
 import TaskModal from '../TaskModal/TaskModal';
 import EditModal from '../EditModal/EditModal';
-import { toast } from 'react-toastify';
 
-import { useTodoContext } from '@/context/todoContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteTodos, fetchTodos } from '@/utils/redux/task';
 
@@ -44,8 +42,12 @@ function TaskList() {
 
   const handleDelete = (id) => {
     dispatch(deleteTodos(id));
-    dispatch(fetchTodos());
+    // dispatch(fetchTodos());
   };
+
+  useEffect(() => {
+    dispatch(fetchTodos());
+  }, [dispatch]);
 
   const toggleModal = () => {
     setIsEdit(false);
@@ -61,7 +63,7 @@ function TaskList() {
       }}
     >
       <List sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {!todos.error && todos !== undefined && todos.length > 0 ? (
+        {todos !== undefined && todos.length > 0 ? (
           todos.map((task, index) => (
             <ListItem
               key={index}
@@ -80,47 +82,49 @@ function TaskList() {
               {loading ? (
                 'Loading'
               ) : (
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography
+                <>
+                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Typography
+                      sx={{
+                        fontSize: '1.2rem',
+                        fontFamily: 'inherit',
+                        color: '#667780',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {/* {task.title.charAt(0).toUpperCase()}
+                    {task.title.slice(1)} */}
+                      {task.title}
+                    </Typography>
+                    <Typography sx={{ fontSize: '0.9rem' }}>
+                      {task.description}
+                    </Typography>
+                  </Box>
+                  <Box
                     sx={{
-                      fontSize: '1.2rem',
-                      fontFamily: 'inherit',
-                      color: '#667780',
-                      fontWeight: 'bold',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: '0.8rem',
                     }}
                   >
-                    {/* {task.title.charAt(0).toUpperCase()}
-                    {task.title.slice(1)} */}
-                    {/* {task.title} */}
-                  </Typography>
-                  <Typography sx={{ fontSize: '0.9rem' }}>
-                    {task.description}
-                  </Typography>
-                </Box>
+                    <Typography
+                      variant='span'
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => handleDelete(task.id)}
+                    >
+                      <MdDelete size={20} color='#E06469' />
+                    </Typography>
+                    <Typography
+                      variant='span'
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => editTask(task)}
+                    >
+                      <MdEdit size={20} color='#19A7CE' />
+                    </Typography>
+                  </Box>
+                </>
               )}
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: '0.8rem',
-                }}
-              >
-                <Typography
-                  variant='span'
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => handleDelete(task.id)}
-                >
-                  <MdDelete size={20} color='#E06469' />
-                </Typography>
-                <Typography
-                  variant='span'
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => editTask(task)}
-                >
-                  <MdEdit size={20} color='#19A7CE' />
-                </Typography>
-              </Box>
             </ListItem>
           ))
         ) : (

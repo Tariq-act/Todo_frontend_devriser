@@ -36,6 +36,10 @@ function EditModal({ task, toggleModal, isEdit }) {
     setStatus('');
   };
 
+  useEffect(() => {
+    dispatch(fetchTodos());
+  }, [dispatch]);
+
   const closeModal = (e) => {
     e.preventDefault();
     toggleModal();
