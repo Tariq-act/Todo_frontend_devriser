@@ -30,11 +30,15 @@ const Navbar = () => {
   const { logout } = useTodoContext();
   const [userName, setUserName] = useState('');
   useEffect(() => {
-    setUserName(JSON.parse(localStorage.getItem('user')) || '');
+    if (typeof window !== 'undefined') {
+      setUserName(JSON.parse(localStorage.getItem('user')) || '');
+      // Add any additional logic for token validation, if needed
+    }
   }, []);
 
   const handleLogout = () => {
     // logout();
+    localStorage.clear();
     router.push('/login');
   };
 

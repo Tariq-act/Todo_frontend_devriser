@@ -39,6 +39,9 @@ export const login = createAsyncThunk('auth/login', async (userData) => {
 
     const data = await response.json();
     console.log(data);
+    localStorage.setItem('token', JSON.stringify(data.token));
+    localStorage.setItem('user', JSON.stringify(data.email));
+    localStorage.setItem('role', JSON.stringify(data.role));
     return data;
   } catch (error) {
     console.log(error);
@@ -72,9 +75,9 @@ export const authSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.user = action.payload;
-        localStorage.setItem('token', JSON.stringify(state.user.token));
-        localStorage.setItem('user', JSON.stringify(state.user.email));
-        localStorage.setItem('role', JSON.stringify(state.user.role));
+        // localStorage.setItem('token', JSON.stringify(state.user.token));
+        // localStorage.setItem('user', JSON.stringify(state.user.email));
+        // localStorage.setItem('role', JSON.stringify(state.user.role));
       })
       // Handle register rejected state
       .addCase(register.rejected, (state, action) => {
@@ -91,9 +94,7 @@ export const authSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.user = action.payload;
-        localStorage.setItem('token', JSON.stringify(state.user.token));
-        localStorage.setItem('user', JSON.stringify(state.user.email));
-        localStorage.setItem('role', JSON.stringify(state.user.role));
+
         // router.push('/');
       })
       // Handle login rejected state

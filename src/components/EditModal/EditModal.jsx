@@ -1,17 +1,17 @@
 'use client';
 
 import styles from '@/styles/TaskModal.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import data from '../../../dummyData.json';
 
 import { useTodoContext } from '@/context/todoContext';
 
 import { useDispatch } from 'react-redux';
-import { fetchTodos, updateTodos } from '@/utils/redux/task';
+import { fetchTodos, updateTodo, updateTodos } from '@/utils/redux/task';
 
 function EditModal({ task, toggleModal, isEdit }) {
-  const { updateTodo } = useTodoContext();
+  // const { updateTodo } = useTodoContext();
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
   const [status, setStatus] = useState(task.status);
@@ -23,8 +23,12 @@ function EditModal({ task, toggleModal, isEdit }) {
     toggleModal();
 
     dispatch(
-      updateTodos({ id: task.id, data: { title, description, status } })
+      updateTodos({
+        id: task.id,
+        data: { title, description, status },
+      })
     );
+
     dispatch(fetchTodos());
 
     setTitle('');

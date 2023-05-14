@@ -51,7 +51,7 @@ function TaskList() {
       }}
     >
       <List sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {todos && todos.length > 0 ? (
+        {todos !== undefined && todos.length > 0 ? (
           todos.map((task, index) => (
             <ListItem
               key={index}
@@ -61,7 +61,10 @@ function TaskList() {
                 backgroundColor: '#fff',
                 borderRadius: '3px',
                 fontFamily: 'inherit',
-                textDecorationLine: task.status === 1 ? 'line-through' : 'none',
+                textDecorationLine:
+                  task !== undefined && task.status && task.status === 1
+                    ? 'line-through'
+                    : 'none',
               }}
             >
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>

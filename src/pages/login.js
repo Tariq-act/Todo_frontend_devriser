@@ -13,7 +13,6 @@ import {
 import { Formik } from 'formik';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
@@ -47,11 +46,10 @@ const LoginForm = () => {
     dispatch(setInputValue(newValue));
   }
 
-  console.log(`http://localhost:8080/${value}/login`);
   const onSubmit = async () => {
     console.log(value);
     dispatch(login({ user: { email, password }, value }));
-    router('/');
+    router.push('/');
   };
 
   return (
