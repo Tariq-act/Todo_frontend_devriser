@@ -1,58 +1,52 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import styled from 'styled-components';
 import Form from '@/components/Form/Form';
 import Users from '@/components/Users/Users';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    padding: theme.spacing(2),
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  container: {
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    [theme.breakpoints.up('md')]: {
-      flexDirection: 'row',
-    },
-  },
-  left: {
-    width: '100%',
-    height: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: '100px',
-    [theme.breakpoints.up('md')]: {
-      width: '50%',
-      height: '100%',
-    },
-  },
-  right: {
-    width: '100%',
-    height: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    [theme.breakpoints.up('md')]: {
-      width: '50%',
-      height: '100%',
-    },
-  },
-  users: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-}));
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+
+  @media (min-width: 960px) {
+    flex-direction: row;
+  }
+`;
+
+const Left = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50%;
+  margin-top: 100px;
+
+  @media (min-width: 960px) {
+    width: 50%;
+    height: 100%;
+  }
+`;
+
+const Right = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50%;
+
+  @media (min-width: 960px) {
+    width: 50%;
+    height: 100%;
+  }
+`;
+
+const UsersContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 export default function FormUser() {
-  const classes = useStyles();
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -64,15 +58,17 @@ export default function FormUser() {
   }
 
   return (
-    <div className={classes.root}>
-      <div className={classes.container}>
-        <div className={classes.left}>
+    <>
+      <Container>
+        <Left>
           <Form />
-        </div>
-        <div className={`${classes.right} ${classes.users}`}>
-          <Users />
-        </div>
-      </div>
-    </div>
+        </Left>
+        <Right>
+          <UsersContainer>
+            <Users />
+          </UsersContainer>
+        </Right>
+      </Container>
+    </>
   );
 }
